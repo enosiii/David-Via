@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | David & Aira</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .story-hero {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            background: linear-gradient(rgba(73, 40, 40, 0.5), rgba(73, 40, 40, 0.5)),
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+
+        .story-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .story-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .story-timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .story-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: #AEB877;
+        }
+
+        .timeline-item {
+            margin-bottom: 4rem;
+            position: relative;
+            width: calc(50% - 40px);
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: auto;
+            padding-left: 60px;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-right: auto;
+            padding-right: 60px;
+            text-align: right;
+        }
+
+        .timeline-year {
+            position: absolute;
+            top: 0;
+            width: 60px;
+            height: 60px;
+            background: #84934A;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-year {
+            left: -30px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-year {
+            right: -30px;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #EEEEEE;
+        }
+
+        .timeline-content h3 {
+            color: #492828;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .gallery-section {
+            margin: 4rem 0;
+            padding: 2rem 0;
+        }
+
+        .gallery-container {
+            margin: 2rem 0;
+        }
+
+        /* Carousel Gallery */
+        .carousel-gallery {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 400px;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(73, 40, 40, 0.8);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #492828;
+            z-index: 10;
+        }
+
+        .carousel-prev {
+            left: 20px;
+        }
+
+        .carousel-next {
+            right: 20px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #EEEEEE;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-dot.active {
+            background: #84934A;
+        }
+
+        /* Grid Gallery */
+        .grid-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .grid-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .grid-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(73, 40, 40, 0.8));
+            padding: 1rem;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .grid-item:hover .grid-overlay {
+            transform: translateY(0);
+        }
+
+        /* Film Strip Gallery */
+        .filmstrip-container {
+            overflow-x: auto;
+            padding: 1rem 0;
+            margin: 2rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: #AEB877 #EEEEEE;
+        }
+
+        .filmstrip-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .filmstrip-container::-webkit-scrollbar-track {
+            background: #EEEEEE;
+            border-radius: 4px;
+        }
+
+        .filmstrip-container::-webkit-scrollbar-thumb {
+            background: #AEB877;
+            border-radius: 4px;
+        }
+
+        .filmstrip {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            min-width: min-content;
+        }
+
+        .filmstrip-item {
+            flex: 0 0 200px;
+            height: 300px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 5px solid white;
+        }
+
+        .filmstrip-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .filmstrip-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(73, 40, 40, 0.8);
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .story-timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+                padding-left: 30px !important;
+                text-align: left !important;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-year,
+            .timeline-item:nth-child(even) .timeline-year {
+                left: -60px;
+                right: auto;
+            }
+
+            .story-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .carousel-slide {
+                height: 300px;
+            }
+
+            .grid-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .filmstrip-item {
+                flex: 0 0 150px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="pwa-prompt" class="pwa-prompt">
+        <div class="pwa-content">
+            <div class="pwa-header">
+                <i class="fas fa-heart"></i>
+                <h3>Install Wedding App</h3>
+                <button class="close-pwa">&times;</button>
+            </div>
+            <p>Add to home screen for easy access to wedding details, countdown, and RSVP!</p>
+            <div class="pwa-buttons">
+                <button id="install-pwa" class="btn-install">Add to Home</button>
+                <button class="btn-later">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">D&A</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="story.html" class="nav-link active">Our Story</a></li>
+                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Party</a></li>
+                <li class="nav-item"><a href="wishes.html" class="nav-link">Wishes</a></li>
+                <li class="nav-item"><a href="registry.html" class="nav-link">Registry</a></li>
+                <li class="nav-item"><a href="rsvp.html" class="nav-link">RSVP</a></li>
+                <li class="nav-item"><a href="game.html" class="nav-link">Game</a></li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="story-hero">
+        <div class="hero-content">
+            <h1>Our Story</h1>
+            <p>A journey of love, laughter, and beautiful memories</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- Timeline Section -->
+        <section class="story-timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">2019</div>
+                <div class="timeline-content">
+                    <h3>The Beginning</h3>
+                    <p>We first met at a mutual friend's gathering. David was instantly drawn to Aira's laughter, and Aira couldn't help but notice David's kind eyes. We spent the whole evening talking and discovered we had so much in common.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-content">
+                    <h3>First Date</h3>
+                    <p>Our first official date was at a cozy coffee shop. Despite the nervousness, we talked for hours about our dreams, families, and future aspirations. It was then we knew there was something special between us.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">2021</div>
+                <div class="timeline-content">
+                    <h3>Growing Together</h3>
+                    <p>We traveled to the mountains for our first trip together. Getting lost on a hiking trail turned into one of our favorite memories. We learned how to navigate challenges together and support each other.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">2022</div>
+                <div class="timeline-content">
+                    <h3>Meeting Families</h3>
+                    <p>This year, we introduced each other to our families. Despite the initial nerves, both families welcomed us warmly. Our family dinners became cherished moments filled with laughter and great food.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">2023</div>
+                <div class="timeline-content">
+                    <h3>The Proposal</h3>
+                    <p>On a beautiful beach sunset, David got down on one knee and asked the most important question of his life. Aira said "Yes!" with tears of joy. It was a perfect moment we'll cherish forever.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carousel Gallery -->
+        <section class="gallery-section">
+            <div class="section-header">
+                <h2>Special Moments</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="gallery-container">
+                <div class="carousel-gallery">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" alt="First meeting">
+                            <div class="carousel-caption">
+                                <p>The day we first met - a memory we'll always treasure</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" alt="First date">
+                            <div class="carousel-caption">
+                                <p>Our first date - hours felt like minutes</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://images.unsplash.com/photo-1529254479751-fbacb4c7a587?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" alt="Mountain trip">
+                            <div class="carousel-caption">
+                                <p>First adventure together - getting lost never felt so right</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-nav carousel-prev">&lt;</button>
+                    <button class="carousel-nav carousel-next">&gt;</button>
+                </div>
+                <div class="carousel-dots">
+                    <button class="carousel-dot active" data-slide="0"></button>
+                    <button class="carousel-dot" data-slide="1"></button>
+                    <button class="carousel-dot" data-slide="2"></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid Gallery -->
+        <section class="gallery-section">
+            <div class="section-header">
+                <h2>Memories Gallery</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="grid-gallery">
+                <div class="grid-item" data-image="1">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Beach sunset">
+                    <div class="grid-overlay">
+                        <p>Sunset walks by the beach</p>
+                    </div>
+                </div>
+                <div class="grid-item" data-image="2">
+                    <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Coffee date">
+                    <div class="grid-overlay">
+                        <p>Our favorite coffee shop dates</p>
+                    </div>
+                </div>
+                <div class="grid-item" data-image="3">
+                    <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Celebration">
+                    <div class="grid-overlay">
+                        <p>Celebrating special moments</p>
+                    </div>
+                </div>
+                <div class="grid-item" data-image="4">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Formal event">
+                    <div class="grid-overlay">
+                        <p>First formal event together</p>
+                    </div>
+                </div>
+                <div class="grid-item" data-image="5">
+                    <img src="https://images.unsplash.com/photo-1516726817505-f5ed825624d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cooking together">
+                    <div class="grid-overlay">
+                        <p>Cooking disasters turned fun memories</p>
+                    </div>
+                </div>
+                <div class="grid-item" data-image="6">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Casual day">
+                    <div class="grid-overlay">
+                        <p>Simple days, beautiful moments</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Film Strip Gallery -->
+        <section class="gallery-section">
+            <div class="section-header">
+                <h2>Adventure Timeline</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="filmstrip-container">
+                <div class="filmstrip">
+                    <div class="filmstrip-item">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Smiling together">
+                        <div class="filmstrip-label">Always smiling</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Exploring city">
+                        <div class="filmstrip-label">City explorers</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Nature lovers">
+                        <div class="filmstrip-label">Nature lovers</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="https://images.unsplash.com/photo-1516726817505-f5ed825624d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Food adventures">
+                        <div class="filmstrip-label">Food adventures</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Formal nights">
+                        <div class="filmstrip-label">Formal nights</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Celebrations">
+                        <div class="filmstrip-label">Celebrations</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Funny Moments -->
+        <section class="section funny-moments">
+            <div class="section-header">
+                <h2>Funny Moments</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="funny-grid">
+                <div class="funny-card">
+                    <div class="funny-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Cooking Disaster</h3>
+                    <p>Attempting to cook together resulted in smoke alarms and ordering pizza. Now it's our favorite "emergency pizza night" tradition.</p>
+                </div>
+                
+                <div class="funny-card">
+                    <div class="funny-icon">
+                        <i class="fas fa-hiking"></i>
+                    </div>
+                    <h3>Lost & Found</h3>
+                    <p>Getting lost on a hike led us to discover a beautiful hidden waterfall. Getting lost has never been more rewarding!</p>
+                </div>
+                
+                <div class="funny-card">
+                    <div class="funny-icon">
+                        <i class="fas fa-snowman"></i>
+                    </div>
+                    <h3>Snow Day</h3>
+                    <p>First snow experience turned into a snowball fight that ended with both of us covered in snow and laughter.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img id="modalImage" src="" alt="">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

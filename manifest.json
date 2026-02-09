@@ -1,0 +1,33 @@
+{
+  "name": "David & Aira Wedding",
+  "short_name": "D&A Wedding",
+  "description": "Wedding website for David Roy S. Tan and Aira Via Gil V. De Jesus",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#EEEEEE",
+  "theme_color": "#AEB877",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "social"],
+  "screenshots": [
+    {
+      "src": "/images/screenshot1.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

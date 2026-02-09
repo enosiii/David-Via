@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishes | David & Aira</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .wishes-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(73, 40, 40, 0.6), rgba(73, 40, 40, 0.6)),
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+
+        .wishes-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .wishes-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .message-form-container {
+            max-width: 700px;
+            margin: 3rem auto;
+            padding: 3rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            border: 1px solid #EEEEEE;
+        }
+
+        .character-count {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .message-prompt {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 2rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .messages-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto; 
+            font-family: 'Playfair Display', serif;
+            color: #492828;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Messages container for bubble system */
+        .messages-grid {
+            position: relative;
+            min-height: 700px;
+            overflow: hidden;
+            margin: 4rem 0;
+            padding: 20px;
+            background: linear-gradient(rgba(132, 147, 74, 0.9), rgba(73, 40, 40, 0.9)),
+                        url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=30');
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            border: 2px solid rgba(174, 184, 119, 0.3);
+            width: 100%;
+        }
+
+        /* Bubble size classes */
+        .bubble-xs {
+            max-width: 150px;
+            min-width: 90px;
+            min-height: 50px;
+            font-size: 0.7em;
+        }
+
+        .bubble-small {
+            max-width: 180px;
+            min-width: 120px;
+            min-height: 70px;
+            font-size: 0.8em;
+        }
+
+        .bubble-medium {
+            max-width: 220px;
+            min-width: 150px;
+            min-height: 90px;
+            font-size: 0.9em;
+        }
+
+        .bubble-large {
+            max-width: 280px;
+            min-width: 180px;
+            min-height: 110px;
+            font-size: 1em;
+        }
+
+        /* Message card styling for bubbles */
+        .message-card {
+            position: absolute !important;
+            padding: 15px !important;
+            border: 1px solid rgba(73, 40, 40, 0.1) !important;
+            border-radius: 15px !important;
+            background: white !important;
+            box-shadow: 0 4px 15px rgba(73, 40, 40, 0.1) !important;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            z-index: 1;
+            animation: fadeIn 0.8s ease forwards;
+            word-wrap: break-word;
+            overflow: hidden;
+            max-width: 280px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Stop animation on hover */
+        .message-card:hover {
+            transform: scale(1.05) !important;
+            z-index: 10 !important;
+            box-shadow: 0 10px 25px rgba(73, 40, 40, 0.15) !important;
+        }
+
+        /* Message content styling */
+        .message-author {
+            font-weight: 600;
+            color: #492828;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .message-date {
+            font-size: 0.7rem;
+            color: #84934A;
+            margin-bottom: 8px;
+        }
+
+        .message-content {
+            line-height: 1.4;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #492828;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #EEEEEE;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #AEB877;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Tips section */
+        .tips-section {
+            background: linear-gradient(135deg, #f9f9f9, #ffffff);
+            padding: 3rem;
+            border-radius: 10px;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tip-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tip-icon {
+            font-size: 2rem;
+            color: #84934A;
+            margin-bottom: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Loading and no messages states */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .no-messages {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Alert styles */
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .custom-alert.success {
+            background: #84934A;
+            color: white;
+        }
+
+        .custom-alert.error {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* NEW: Adjust for mobile */
+        @media (max-width: 768px) {
+            .messages-grid {
+                min-height: 500px;
+                padding: 10px !important;
+            }
+
+            .message-form-container {
+                padding: 2rem;
+                margin: 2rem auto;
+            }
+
+            .wishes-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tips-section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .messages-grid {
+                min-height: 400px;
+            }
+
+            .message-form-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="pwa-prompt" class="pwa-prompt">
+        <div class="pwa-content">
+            <div class="pwa-header">
+                <i class="fas fa-heart"></i>
+                <h3>Install Wedding App</h3>
+                <button class="close-pwa">&times;</button>
+            </div>
+            <p>Add to home screen for easy access to wedding details, countdown, and RSVP!</p>
+            <div class="pwa-buttons">
+                <button id="install-pwa" class="btn-install">Add to Home</button>
+                <button class="btn-later">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">D&A</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="story.html" class="nav-link">Our Story</a></li>
+                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Party</a></li>
+                <li class="nav-item"><a href="wishes.html" class="nav-link active">Wishes</a></li>
+                <li class="nav-item"><a href="registry.html" class="nav-link">Registry</a></li>
+                <li class="nav-item"><a href="rsvp.html" class="nav-link">RSVP</a></li>
+                <li class="nav-item"><a href="game.html" class="nav-link">Game</a></li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="wishes-hero">
+        <div class="hero-content">
+            <h1>Wishes & Messages</h1>
+            <p>Share your love, memories, and blessings with David & Aira</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- INTRODUCTION -->
+        <div class="messages-intro">
+            <p>Your words of love, encouragement, and wisdom mean the world to us. Please share your thoughts, memories, or well wishes that we can cherish forever.</p>
+            <p style="margin-top: 1rem;"><em>Messages will be displayed below and saved in our wedding memory book.</em></p>
+        </div>
+
+        <!-- MESSAGE FORM -->
+        <div class="message-form-container">
+            <div class="section-header">
+                <h2>Send Your Wishes</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <form id="messageForm">
+                <!-- NAME FIELD -->
+                <div class="form-group">
+                    <label class="form-label" for="name">Your Name *</label>
+                    <input type="text" class="form-control" id="name" name="name" required 
+                           placeholder="Enter your full name">
+                </div>
+                
+                <!-- RELATIONSHIP FIELD -->
+                <div class="form-group">
+                    <label class="form-label" for="relationship">Your Relationship to the Couple</label>
+                    <select class="form-control" id="relationship" name="relationship">
+                        <option value="">Select relationship</option>
+                        <option value="Friend">Friend</option>
+                        <option value="Family">Family</option>
+                        <option value="Relative">Relative</option>
+                        <option value="Co-worker">Co-worker</option>
+                        <option value="Best Friend">Best Friend</option>
+                        <option value="Childhood Friend">Childhood Friend</option>
+                        <option value="College Friend">College Friend</option>
+                        <option value="Church Member">Church Member</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <!-- MESSAGE FIELD -->
+                <div class="form-group">
+                    <label class="form-label" for="message">Your Message *</label>
+                    <textarea class="form-control" id="message" name="message" rows="6" 
+                              required placeholder="Share your thoughts, memories, or well wishes for David & Aira..."
+                              maxlength="500"></textarea>
+                    <div class="character-count">
+                        <span id="charCount">0</span>/500 characters
+                    </div>
+                </div>
+                
+                <!-- SUBMIT BUTTON -->
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button type="submit" class="btn-primary" style="padding: 12px 40px; font-size: 1.1rem;">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </div>
+                
+                <!-- PRIVACY NOTE -->
+                <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #666;">
+                    * Required fields. Your message will be visible to other guests.
+                </p>
+            </form>
+        </div>
+
+        <!-- MESSAGES DISPLAY -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Messages from Friends & Family</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <p class="message-prompt">Hover over any message to pause it and read</p>
+            </div>
+
+            <div class="messages-grid" id="floatingMessages">
+                <div class="loading" id="loadingMessages">
+                    <i class="fas fa-spinner fa-spin"></i> Loading messages...
+                </div>
+                <!-- Messages will be loaded dynamically as bubbles -->
+            </div>
+        </section>
+
+        <!-- TIPS FOR MESSAGES -->
+        <div class="tips-section">
+            <div class="section-header">
+                <h2>Tips for Your Message</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Share a Memory</h3>
+                    <p>A special moment you shared with David & Aira</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Offer Advice</h3>
+                    <p>Wisdom from your own marriage or relationships</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-laugh"></i>
+                    </div>
+                    <h3>Tell a Story</h3>
+                    <p>Share a lighthearted moment or inside joke</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-pray"></i>
+                    </div>
+                    <h3>Send Blessings</h3>
+                    <p>Your prayers and well-wishes for their future</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; font-style: italic; color: #492828;">
+                <p>"Your loving words will be treasured in our hearts forever."</p>
+                <p style="margin-top: 0.5rem;">- David & Aira</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/footer.js"></script>
+    <script>
+        // ============================================
+        // GLOBAL VARIABLES AND CONFIGURATION
+        // ============================================
+        // Replace this with your Google Apps Script URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_URL/exec';
+        const MAX_BUBBLES = 15;
+        const MAX_MESSAGES = 100;
+        const BUBBLE_SPEED_MIN = 0.3;
+        const BUBBLE_SPEED_MAX = 0.8;
+        const BUBBLE_REFRESH_INTERVAL = 5000;
+
+        let allMessages = [];
+        let displayedMessages = new Set();
+        let activeBubbles = [];
+        let animationFrameId = null;
+        let lastFetchTime = 0;
+        let colorIndex = 0;
+
+        // Color palette matching wedding theme
+        const BUBBLE_COLORS = [
+            '#EEEEEE', '#f5f5f5', '#f9f9f9', // Whites
+            '#AEB877', '#c5d08d', '#d8e0a5', // Light greens
+            '#84934A', '#95a356', '#a6b362', // Medium greens
+            '#f8f0e3', '#f9f4e9', '#faf7ef'  // Creams
+        ];
+
+        // ============================================
+        // CHARACTER COUNT FOR MESSAGE TEXTAREA
+        // ============================================
+        const messageTextarea = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+        
+        if (messageTextarea && charCount) {
+            messageTextarea.addEventListener('input', function() {
+                const length = this.value.length;
+                charCount.textContent = length;
+                
+                if (length > 450) {
+                    charCount.style.color = '#dc3545';
+                } else if (length > 400) {
+                    charCount.style.color = '#ffc107';
+                } else {
+                    charCount.style.color = '#666';
+                }
+            });
+            
+            charCount.textContent = messageTextarea.value.length;
+        }
+        
+        // ============================================
+        // ESCAPE HTML TO PREVENT XSS
+        // ============================================
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // ============================================
+        // FETCH MESSAGES FROM GOOGLE SHEETS
+        // ============================================
+        async function fetchMessages() {
+            try {
+                const now = Date.now();
+                if (now - lastFetchTime < 5000 && allMessages.length > 0) return;
+                lastFetchTime = now;
+
+                // For demo purposes - using mock data
+                // Replace with actual Google Sheets API call
+                const mockMessages = [
+                    {
+                        name: "John & Sarah",
+                        relationship: "Friends",
+                        message: "Congratulations! Wishing you a lifetime of love and happiness.",
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        name: "The Rodriguez Family",
+                        relationship: "Family",
+                        message: "So happy for both of you! Can't wait to celebrate with you.",
+                        timestamp: new Date(Date.now() - 86400000).toISOString()
+                    },
+                    {
+                        name: "Mark",
+                        relationship: "Best Friend",
+                        message: "David, so happy for you and Aira! May God bless your marriage.",
+                        timestamp: new Date(Date.now() - 172800000).toISOString()
+                    },
+                    {
+                        name: "Grace",
+                        relationship: "Co-worker",
+                        message: "Congratulations to the beautiful couple! Wishing you all the best.",
+                        timestamp: new Date(Date.now() - 259200000).toISOString()
+                    }
+                ];
+
+                const loadingElement = document.getElementById('loadingMessages');
+                if (loadingElement) loadingElement.style.display = 'none';
+
+                mockMessages.forEach(msg => {
+                    const msgId = `${msg.name}-${msg.message}-${msg.timestamp}`;
+                    
+                    if (!displayedMessages.has(msgId)) {
+                        const newMsg = {
+                            name: msg.name || 'Anonymous',
+                            relationship: msg.relationship || '',
+                            message: msg.message || '',
+                            timestamp: msg.timestamp || new Date().toISOString(),
+                            id: msgId
+                        };
+                        
+                        allMessages.push(newMsg);
+                        displayedMessages.add(msgId);
+                    }
+                });
+
+                if (allMessages.length > MAX_MESSAGES) {
+                    allMessages = allMessages.slice(-MAX_MESSAGES);
+                }
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+            }
+        }
+        
+        // ============================================
+        // CREATE AND MANAGE BUBBLES
+        // ============================================
+        function createBubble(messageData, container) {
+            const containerRect = container.getBoundingClientRect();
+            const bubble = document.createElement('div');
+            
+            // Determine bubble size based on message length
+            const messageLength = messageData.message.length;
+            let sizeClass = 'bubble-small';
+            if (messageLength < 50) sizeClass = 'bubble-xs';
+            else if (messageLength < 150) sizeClass = 'bubble-small';
+            else if (messageLength < 300) sizeClass = 'bubble-medium';
+            else sizeClass = 'bubble-large';
+            
+            bubble.className = `message-card ${sizeClass}`;
+            
+            // Get next color in sequence
+            const color = BUBBLE_COLORS[colorIndex % BUBBLE_COLORS.length];
+            colorIndex++;
+            
+            // Apply styling
+            bubble.style.backgroundColor = color;
+            
+            // Format date
+            let displayDate = 'Recently';
+            if (messageData.timestamp) {
+                const date = new Date(messageData.timestamp);
+                if (!isNaN(date)) {
+                    displayDate = date.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                }
+            }
+            
+            // Create message content
+            bubble.innerHTML = `
+                <div class="message-author">${escapeHtml(messageData.name)}</div>
+                <div class="message-date">${displayDate}${messageData.relationship ? ` • ${escapeHtml(messageData.relationship)}` : ''}</div>
+                <div class="message-content">${escapeHtml(messageData.message)}</div>
+            `;
+            
+            // Add to container first to measure dimensions
+            container.appendChild(bubble);
+            
+            // Random position at the bottom
+            const bubbleWidth = bubble.offsetWidth;
+            const maxX = containerRect.width - bubbleWidth;
+            const startX = Math.max(20, Math.min(maxX - 20, Math.random() * maxX));
+            
+            // Set initial position at the bottom
+            bubble.style.left = `${startX}px`;
+            bubble.style.top = `${containerRect.height}px`;
+            
+            // Store bubble reference
+            const bubbleData = {
+                element: bubble,
+                x: startX,
+                y: parseInt(bubble.style.top),
+                width: bubbleWidth,
+                height: bubble.offsetHeight,
+                speed: BUBBLE_SPEED_MIN + Math.random() * (BUBBLE_SPEED_MAX - BUBBLE_SPEED_MIN),
+                isHovered: false,
+                messageId: messageData.id,
+                id: Date.now() + Math.random()
+            };
+            
+            activeBubbles.push(bubbleData);
+            
+            // Add hover effect
+            bubble.addEventListener('mouseenter', () => {
+                bubbleData.isHovered = true;
+                bubble.style.zIndex = '20';
+                bubble.style.transform = 'scale(1.05)';
+                bubble.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            });
+            
+            bubble.addEventListener('mouseleave', () => {
+                bubbleData.isHovered = false;
+                bubble.style.zIndex = '1';
+                bubble.style.transform = 'scale(1)';
+                bubble.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            });
+            
+            return bubbleData;
+        }
+        
+        // ============================================
+        // ADD BUBBLE IF CONDITIONS ARE RIGHT
+        // ============================================
+        function addBubble() {
+            const container = document.getElementById('floatingMessages');
+            if (!container || allMessages.length === 0 || activeBubbles.length >= MAX_BUBBLES) {
+                return;
+            }
+
+            // Pick a random message
+            const randomIndex = Math.floor(Math.random() * allMessages.length);
+            const message = allMessages[randomIndex];
+
+            createBubble(message, container);
+        }
+
+        // ============================================
+        // MAIN ANIMATION LOOP
+        // ============================================
+        function animateBubbles() {
+            const container = document.getElementById('floatingMessages');
+            if (!container) return;
+            
+            // Update each bubble's position
+            for (let i = 0; i < activeBubbles.length; i++) {
+                const bubble = activeBubbles[i];
+                
+                // Skip if bubble is hovered
+                if (bubble.isHovered) continue;
+                
+                // Move bubble upward
+                bubble.y -= bubble.speed;
+                bubble.element.style.top = `${bubble.y}px`;
+                
+                // Remove bubble if it goes above the container
+                if (bubble.y + bubble.height < 0) {
+                    bubble.element.remove();
+                    activeBubbles.splice(i, 1);
+                    i--;
+                }
+            }
+            
+            // Add new bubbles if we have space
+            if (activeBubbles.length < MAX_BUBBLES && allMessages.length > 0) {
+                addBubble();
+            }
+            
+            // Continue animation
+            animationFrameId = requestAnimationFrame(animateBubbles);
+        }
+        
+        // ============================================
+        // SHOW ALERT MESSAGE
+        // ============================================
+        function showAlert(message, type = 'success') {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.custom-alert');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            // Create alert
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `custom-alert ${type}`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            alertDiv.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                alertDiv.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // ============================================
+        // MESSAGE FORM SUBMISSION
+        // ============================================
+        const messageForm = document.getElementById('messageForm');
+        if (messageForm) {
+            messageForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const name = formData.get('name').trim();
+                const relationship = formData.get('relationship').trim();
+                const message = formData.get('message').trim();
+                
+                // Validation
+                if (!name || !message) {
+                    showAlert('Please fill in all required fields.', 'error');
+                    return;
+                }
+                
+                if (message.length < 10) {
+                    showAlert('Please write a message of at least 10 characters.', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Prepare data
+                    const timestamp = new Date().toISOString();
+                    const data = {
+                        name: name,
+                        relationship: relationship,
+                        message: message,
+                        timestamp: timestamp,
+                        action: 'submitMessage'
+                    };
+                    
+                    // In a real implementation, you would send this to Google Sheets
+                    // const response = await fetch(SCRIPT_URL, {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/x-www-form-urlencoded',
+                    //     },
+                    //     body: new URLSearchParams(data)
+                    // });
+                    // const result = await response.json();
+                    
+                    // For demo - simulate success
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // Show success message
+                    showAlert('Message sent successfully! Thank you for your wishes.', 'success');
+                    
+                    // Add to local messages array
+                    const msgId = `${name}-${message}-${timestamp}`;
+                    const newMessage = {
+                        name: name,
+                        relationship: relationship,
+                        message: message,
+                        timestamp: timestamp,
+                        id: msgId
+                    };
+                    
+                    allMessages.unshift(newMessage);
+                    displayedMessages.add(msgId);
+                    
+                    // Immediately display the new message if possible
+                    const container = document.getElementById('floatingMessages');
+                    if (container && activeBubbles.length < MAX_BUBBLES) {
+                        createBubble(newMessage, container);
+                    }
+                    
+                    // Reset form
+                    this.reset();
+                    charCount.textContent = '0';
+                    
+                } catch (error) {
+                    console.error('Error submitting message:', error);
+                    showAlert('Failed to send message. Please try again.', 'error');
+                } finally {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        }
+        
+        // ============================================
+        // INITIALIZE ON PAGE LOAD
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize navigation
+            if (typeof initializeNavigation === 'function') {
+                initializeNavigation();
+            }
+            
+            // Load existing messages
+            fetchMessages();
+            
+            // Start animation loop
+            animateBubbles();
+            
+            // Refresh messages periodically
+            setInterval(fetchMessages, BUBBLE_REFRESH_INTERVAL);
+            
+            // Add some initial bubbles
+            setTimeout(() => {
+                for (let i = 0; i < Math.min(5, allMessages.length); i++) {
+                    addBubble();
+                }
+            }, 1000);
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                // You can add resize handling if needed
+            });
+        });
+        
+        // ============================================
+        // CLEAN UP ON PAGE UNLOAD
+        // ============================================
+        window.addEventListener('beforeunload', function() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        });
+    </script>
+</body>
+</html>

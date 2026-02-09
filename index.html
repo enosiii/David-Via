@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#AEB877">
+    <meta name="description" content="Wedding of David Roy & Aira Via">
+    <title>David & Aira | July 11, 2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- PWA Install Prompt -->
+    <div id="pwa-prompt" class="pwa-prompt">
+        <div class="pwa-content">
+            <div class="pwa-header">
+                <i class="fas fa-heart"></i>
+                <h3>Install Wedding App</h3>
+                <button class="close-pwa">&times;</button>
+            </div>
+            <p>Add to home screen for easy access to wedding details, countdown, and RSVP!</p>
+            <div class="pwa-buttons">
+                <button id="install-pwa" class="btn-install">Add to Home</button>
+                <button class="btn-later">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">D&A</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="story.html" class="nav-link">Our Story</a></li>
+                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Party</a></li>
+                <li class="nav-item"><a href="wishes.html" class="nav-link">Wishes</a></li>
+                <li class="nav-item"><a href="registry.html" class="nav-link">Registry</a></li>
+                <li class="nav-item"><a href="rsvp.html" class="nav-link">RSVP</a></li>
+                <li class="nav-item"><a href="game.html" class="nav-link">Game</a></li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="couple-names">David Roy & Aira Via</h1>
+            <p class="wedding-date">July 11, 2026</p>
+            <div class="countdown-container">
+                <h2 class="countdown-title">Counting the Days</h2>
+                <div id="countdown" class="countdown">
+                    <div class="countdown-item">
+                        <span id="days" class="countdown-number">00</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="hours" class="countdown-number">00</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="minutes" class="countdown-number">00</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="seconds" class="countdown-number">00</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+            <a href="#details" class="btn-hero">View Details</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Couple Message -->
+        <section class="section couple-message">
+            <div class="section-header">
+                <h2>Our Journey Together</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <div class="message-content">
+                <p class="bible-verse">
+                    "And now these three remain: faith, hope and love. But the greatest of these is love."<br>
+                    <span class="verse-ref">- 1 Corinthians 13:13 (KJV)</span>
+                </p>
+                <div class="message-text">
+                    <p>We are thrilled to invite you to celebrate this special day with us as we begin our forever together. Your presence would mean the world to us as we exchange vows and start our married life.</p>
+                    <p>With love and gratitude,</p>
+                    <p class="signature">David Roy & Aira Via</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anniversary Countdown -->
+        <section class="section anniversary-section">
+            <div class="section-header">
+                <h2>Celebrating Forever</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <div id="anniversary-countdowns" class="anniversary-container">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Quick Details -->
+        <section id="details" class="section quick-details">
+            <div class="section-header">
+                <h2>Wedding Details</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <h3>Date & Time</h3>
+                    <p>July 11, 2026</p>
+                    <p>2:00 PM</p>
+                    <button class="btn-calendar" onclick="addToCalendar()">
+                        <i class="far fa-calendar-plus"></i> Add to Calendar
+                    </button>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-church"></i>
+                    </div>
+                    <h3>Ceremony</h3>
+                    <p>Church Name</p>
+                    <p>2:00 PM</p>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-glass-cheers"></i>
+                    </div>
+                    <h3>Reception</h3>
+                    <p>Reception Name</p>
+                    <p>Following Ceremony</p>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3>Dress Code</h3>
+                    <p>Compliment to Theme Colors</p>
+                    <p><strong>Gents:</strong> Barong</p>
+                    <p><strong>Ladies:</strong> Coffee Brown Formal</p>
+                </div>
+            </div>
+            
+            <div class="cta-buttons">
+                <a href="rsvp.html" class="btn-primary">RSVP Now</a>
+                <a href="party.html" class="btn-secondary">View Wedding Party</a>
+            </div>
+        </section>
+
+        <!-- Photo Preview -->
+        <section class="section photo-preview">
+            <div class="section-header">
+                <h2>Our Memories</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Couple memory 1">
+                </div>
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Couple memory 2">
+                </div>
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1529254479751-fbacb4c7a587?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Couple memory 3">
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="story.html" class="btn-secondary">View More Photos</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/countdown.js"></script>
+    <script src="js/footer.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

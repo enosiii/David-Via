@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install Wedding App | David & Aira</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .install-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .install-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #AEB877;
+        }
+
+        .install-header h1 {
+            color: #492828;
+            margin-bottom: 1rem;
+        }
+
+        .install-header .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #492828;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .install-message {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .instructions-section {
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #84934A;
+        }
+
+        .instructions-section h3 {
+            color: #492828;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions-section h3 i {
+            color: #84934A;
+        }
+
+        .step {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #84934A;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .step-content {
+            display: inline-block;
+            width: calc(100% - 40px);
+            vertical-align: top;
+        }
+
+        .step-content h4 {
+            color: #492828;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .device-icon {
+            font-size: 2rem;
+            color: #84934A;
+            margin-bottom: 1rem;
+        }
+
+        .benefits {
+            background: linear-gradient(135deg, #AEB877, #84934A);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 3rem;
+        }
+
+        .benefits h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits-list li {
+            margin-bottom: 1rem;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .benefits-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: white;
+            font-weight: bold;
+        }
+
+        .cta-install {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn-install-large {
+            background: #492828;
+            color: white;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-install-large:hover {
+            background: #3a1f1f;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .install-container {
+                margin: 80px 1rem 2rem;
+                padding: 1rem;
+            }
+
+            .instructions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-content {
+                width: calc(100% - 40px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Simple Navigation -->
+    <nav class="navbar" style="position: fixed; top: 0; width: 100%;">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" style="font-size: 1.5rem;">
+                <i class="fas fa-arrow-left" style="margin-right: 10px;"></i>
+                <span class="logo-text">Back to Wedding</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="install-container">
+        <div class="install-header">
+            <h1>Install Wedding App</h1>
+            <p>Add David & Aira's wedding to your home screen for easy access</p>
+        </div>
+
+        <div class="install-message">
+            <p>Get instant access to wedding details, countdown, RSVP, and more right from your home screen. 
+            No need to search for the website - everything will be just one tap away!</p>
+        </div>
+
+        <div class="instructions-grid">
+            <div class="instructions-section">
+                <h3><i class="fab fa-apple"></i> iPhone / iOS</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <h4>Open in Safari</h4>
+                        <p>Make sure you're using Safari browser to view this website.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <h4>Tap Share Button</h4>
+                        <p>Tap the Share icon at the bottom of Safari (square with up arrow).</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <h4>Scroll and Select</h4>
+                        <p>Scroll down and tap "Add to Home Screen" option.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                        <h4>Confirm & Install</h4>
+                        <p>Tap "Add" in the top right corner. The app will appear on your home screen.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions-section">
+                <h3><i class="fab fa-android"></i> Android</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <h4>Open Menu</h4>
+                        <p>Tap the three dots menu in the top right corner of Chrome.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <h4>Select Install</h4>
+                        <p>Tap "Add to Home screen" or "Install app" from the menu.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <h4>Confirm Installation</h4>
+                        <p>Review the prompt and tap "Install" or "Add".</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                        <h4>Launch App</h4>
+                        <p>Find the app on your home screen and tap to open.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="benefits">
+            <h3>Why Add to Home Screen?</h3>
+            <ul class="benefits-list">
+                <li>Quick access to wedding countdown and details</li>
+                <li>Works offline once loaded</li>
+                <li>Receive notifications about wedding updates</li>
+                <li>No browser navigation needed</li>
+                <li>App-like experience with full-screen mode</li>
+                <li>Easy RSVP submission</li>
+            </ul>
+        </div>
+
+        <div class="cta-install">
+            <a href="index.html" class="btn-install-large">
+                <i class="fas fa-heart"></i>
+                Return to Wedding Website
+            </a>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

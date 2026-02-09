@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Registry | David & Aira</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .registry-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(73, 40, 40, 0.6), rgba(73, 40, 40, 0.6)),
+                        url('https://images.unsplash.com/photo-1530587191325-2dbd6d8f7b5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+
+        .registry-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .registry-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .message-section {
+            padding: 4rem 0;
+            background: #f9f9f9;
+        }
+
+        .message-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .message-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .registry-section {
+            padding: 4rem 0;
+        }
+
+        .registry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .registry-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .registry-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .registry-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .registry-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .registry-card:hover .registry-image img {
+            transform: scale(1.05);
+        }
+
+        .registry-content {
+            padding: 2rem;
+        }
+
+        .registry-title {
+            font-size: 1.5rem;
+            color: #492828;
+            margin-bottom: 1rem;
+        }
+
+        .registry-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .registry-amount {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .amount-label {
+            color: #492828;
+            font-weight: 600;
+        }
+
+        .amount-value {
+            font-size: 1.3rem;
+            color: #84934A;
+            font-weight: bold;
+        }
+
+        .progress-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #EEEEEE;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #AEB877, #84934A);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .registry-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-contribute {
+            flex: 1;
+            background: #84934A;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-contribute:hover {
+            background: #AEB877;
+        }
+
+        .btn-details {
+            flex: 1;
+            background: transparent;
+            color: #84934A;
+            border: 2px solid #84934A;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-details:hover {
+            background: #84934A;
+            color: white;
+        }
+
+        .bank-details {
+            background: linear-gradient(135deg, #f9f9f9, #ffffff);
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+
+        .bank-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .bank-info {
+            margin: 2rem 0;
+        }
+
+        .bank-field {
+            display: flex;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            align-items: center;
+        }
+
+        .field-label {
+            flex: 0 0 150px;
+            color: #492828;
+            font-weight: 600;
+        }
+
+        .field-value {
+            flex: 1;
+            font-family: monospace;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #EEEEEE;
+        }
+
+        .copy-btn {
+            background: #AEB877;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #84934A;
+        }
+
+        .copy-btn.copied {
+            background: #492828;
+        }
+
+        .cash-gift-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .cash-gift-card {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .envelope-icon {
+            font-size: 4rem;
+            color: #84934A;
+            margin-bottom: 2rem;
+        }
+
+        .note-section {
+            background: #FFF9E6;
+            padding: 3rem;
+            border-radius: 10px;
+            margin-top: 4rem;
+        }
+
+        .note-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .registry-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .message-card {
+                padding: 2rem;
+            }
+
+            .registry-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .registry-actions {
+                flex-direction: column;
+            }
+
+            .bank-field {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .field-label {
+                flex: none;
+                margin-bottom: 0.5rem;
+            }
+
+            .field-value {
+                width: 100%;
+            }
+
+            .copy-btn {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="pwa-prompt" class="pwa-prompt">
+        <div class="pwa-content">
+            <div class="pwa-header">
+                <i class="fas fa-heart"></i>
+                <h3>Install Wedding App</h3>
+                <button class="close-pwa">&times;</button>
+            </div>
+            <p>Add to home screen for easy access to wedding details, countdown, and RSVP!</p>
+            <div class="pwa-buttons">
+                <button id="install-pwa" class="btn-install">Add to Home</button>
+                <button class="btn-later">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">D&A</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="story.html" class="nav-link">Our Story</a></li>
+                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Party</a></li>
+                <li class="nav-item"><a href="wishes.html" class="nav-link">Wishes</a></li>
+                <li class="nav-item"><a href="registry.html" class="nav-link active">Registry</a></li>
+                <li class="nav-item"><a href="rsvp.html" class="nav-link">RSVP</a></li>
+                <li class="nav-item"><a href="game.html" class="nav-link">Game</a></li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="registry-hero">
+        <div class="hero-content">
+            <h1>Gift Registry</h1>
+            <p>Your presence is our greatest gift, but if you wish to honor us with a present...</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- Message Section -->
+        <section class="message-section">
+            <div class="message-card">
+                <h2>A Note of Gratitude</h2>
+                <p>Dear Family and Friends,</p>
+                <p>Your presence at our wedding is the most meaningful gift we could ever receive. Having you celebrate this special day with us means the world.</p>
+                <p>For those who have expressed an interest in giving a gift, we have created this registry to make it convenient. Your generous contributions will help us start our new life together and create a home filled with love and memories.</p>
+                <p>Thank you for your love and support.</p>
+                <p class="signature">With love,<br>David Roy & Aira Via</p>
+            </div>
+        </section>
+
+        <!-- Gift Registry Items -->
+        <section class="registry-section">
+            <div class="section-header">
+                <h2>Our Gift Registry</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <p>Choose from our curated selection of gifts for our new home</p>
+            </div>
+
+            <div class="registry-grid">
+                <!-- Item 1 -->
+                <div class="registry-card">
+                    <div class="registry-image">
+                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Kitchen Appliances">
+                    </div>
+                    <div class="registry-content">
+                        <h3 class="registry-title">Kitchen Essentials</h3>
+                        <p class="registry-description">High-quality cookware set and kitchen appliances for our home cooking adventures.</p>
+                        
+                        <div class="registry-amount">
+                            <span class="amount-label">Target Amount</span>
+                            <span class="amount-value">₱25,000</span>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%"></div>
+                            </div>
+                        </div>
+
+                        <div class="registry-actions">
+                            <button class="btn-contribute">Contribute</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="registry-card">
+                    <div class="registry-image">
+                        <img src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Living Room Set">
+                    </div>
+                    <div class="registry-content">
+                        <h3 class="registry-title">Living Room Set</h3>
+                        <p class="registry-description">Comfortable sofa and coffee table for our family gatherings and cozy nights.</p>
+                        
+                        <div class="registry-amount">
+                            <span class="amount-label">Target Amount</span>
+                            <span class="amount-value">₱50,000</span>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 25%"></div>
+                            </div>
+                        </div>
+
+                        <div class="registry-actions">
+                            <button class="btn-contribute">Contribute</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="registry-card">
+                    <div class="registry-image">
+                        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Bedroom Set">
+                    </div>
+                    <div class="registry-content">
+                        <h3 class="registry-title">Bedroom Furniture</h3>
+                        <p class="registry-description">Queen-size bed frame, mattress, and bedside tables for restful nights.</p>
+                        
+                        <div class="registry-amount">
+                            <span class="amount-label">Target Amount</span>
+                            <span class="amount-value">₱40,000</span>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%"></div>
+                            </div>
+                        </div>
+
+                        <div class="registry-actions">
+                            <button class="btn-contribute">Contribute</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="registry-card">
+                    <div class="registry-image">
+                        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Dining Set">
+                    </div>
+                    <div class="registry-content">
+                        <h3 class="registry-title">Dining Set</h3>
+                        <p class="registry-description">6-seater dining table and chairs for family dinners and entertaining guests.</p>
+                        
+                        <div class="registry-amount">
+                            <span class="amount-label">Target Amount</span>
+                            <span class="amount-value">₱30,000</span>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%"></div>
+                            </div>
+                        </div>
+
+                        <div class="registry-actions">
+                            <button class="btn-contribute">Contribute</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="registry-card">
+                    <div class="registry-image">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Home Appliances">
+                    </div>
+                    <div class="registry-content">
+                        <h3 class="registry-title">Home Appliances</h3>
+                        <p class="registry-description">Refrigerator, washing machine, and other essential home appliances.</p>
+                        
+                        <div class="registry-amount">
+                            <span class="amount-label">Target Amount</span>
+                            <span class="amount-value">₱60,000</span>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>20%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 20%"></div>
+                            </div>
+                        </div>
+
+                        <div class="registry-actions">
+                            <button class="btn-contribute">Contribute</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="registry-card">
+                    <div class="registry-image">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Honeymoon Fund">
+                    </div>
+                    <div class="registry-content">
+                        <h3 class="registry-title">Honeymoon Fund</h3>
+                        <p class="registry-description">Contribute to our dream honeymoon trip to create unforgettable memories.</p>
+                        
+                        <div class="registry-amount">
+                            <span class="amount-label">Target Amount</span>
+                            <span class="amount-value">₱100,000</span>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                        </div>
+
+                        <div class="registry-actions">
+                            <button class="btn-contribute">Contribute</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bank Details -->
+        <section class="bank-details">
+            <div class="bank-card">
+                <div class="section-header">
+                    <h2>Bank Transfer Details</h2>
+                    <div class="heart-divider">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <p>For direct bank transfers or cash gifts</p>
+                </div>
+
+                <div class="bank-info">
+                    <div class="bank-field">
+                        <span class="field-label">Bank Name:</span>
+                        <span class="field-value" id="bankName">Sample Bank Philippines</span>
+                        <button class="copy-btn" data-target="bankName">Copy</button>
+                    </div>
+                    
+                    <div class="bank-field">
+                        <span class="field-label">Account Name:</span>
+                        <span class="field-value" id="accountName">David Roy S. Tan & Aira Via G. De Jesus</span>
+                        <button class="copy-btn" data-target="accountName">Copy</button>
+                    </div>
+                    
+                    <div class="bank-field">
+                        <span class="field-label">Account Number:</span>
+                        <span class="field-value" id="accountNumber">1234-5678-9012-3456</span>
+                        <button class="copy-btn" data-target="accountNumber">Copy</button>
+                    </div>
+                    
+                    <div class="bank-field">
+                        <span class="field-label">Account Type:</span>
+                        <span class="field-value" id="accountType">Joint Savings Account</span>
+                        <button class="copy-btn" data-target="accountType">Copy</button>
+                    </div>
+                </div>
+
+                <div class="note-section">
+                    <div class="note-content">
+                        <h3>Important Notes</h3>
+                        <p>• Please include your name in the transaction reference so we can properly acknowledge your gift.</p>
+                        <p>• Send us a screenshot or confirmation of your transfer via Messenger or email.</p>
+                        <p>• We will send a personalized thank you note for every gift received.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cash Gift Option -->
+        <section class="cash-gift-section">
+            <div class="cash-gift-card">
+                <div class="envelope-icon">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <h2>Prefer Cash Gift?</h2>
+                <p>Cash gifts are always welcome and will be greatly appreciated. You may give them during the wedding reception or use the bank transfer details above.</p>
+                <p><strong>Wedding Envelopes:</strong> Will be available at the reception entrance.</p>
+                <div class="note-section" style="margin-top: 2rem;">
+                    <p><em>"Where your treasure is, there your heart will be also." - Matthew 6:21</em></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/footer.js"></script>
+    <script>
+        // Copy to clipboard functionality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+                const textToCopy = targetElement.textContent;
+                
+                // Create temporary textarea
+                const textarea = document.createElement('textarea');
+                textarea.value = textToCopy;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                // Visual feedback
+                const originalText = this.textContent;
+                this.textContent = 'Copied!';
+                this.classList.add('copied');
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+        // Gift contribution functionality
+        document.querySelectorAll('.btn-contribute').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.registry-card');
+                const title = card.querySelector('.registry-title').textContent;
+                
+                // Show contribution modal
+                showContributionModal(title);
+            });
+        });
+
+        // Gift details functionality
+        document.querySelectorAll('.btn-details').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.registry-card');
+                const title = card.querySelector('.registry-title').textContent;
+                const description = card.querySelector('.registry-description').textContent;
+                
+                // Show details modal
+                showDetailsModal(title, description);
+            });
+        });
+
+        function showContributionModal(title) {
+            const modal = document.createElement('div');
+            modal.className = 'contribution-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>Contribute to ${title}</h3>
+                    <p>Enter your contribution amount:</p>
+                    <div class="amount-input">
+                        <span>₱</span>
+                        <input type="number" placeholder="0.00" min="100" step="100">
+                    </div>
+                    <div class="quick-amounts">
+                        <button class="quick-amount" data-amount="500">₱500</button>
+                        <button class="quick-amount" data-amount="1000">₱1,000</button>
+                        <button class="quick-amount" data-amount="2000">₱2,000</button>
+                        <button class="quick-amount" data-amount="5000">₱5,000</button>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn-secondary cancel-btn">Cancel</button>
+                        <button class="btn-primary proceed-btn">Proceed to Payment</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .contribution-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 2000;
+                }
+                .contribution-modal .modal-content {
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 10px;
+                    max-width: 400px;
+                    width: 90%;
+                }
+                .amount-input {
+                    display: flex;
+                    align-items: center;
+                    margin: 1rem 0;
+                    border: 2px solid #EEEEEE;
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+                .amount-input span {
+                    padding: 0.75rem 1rem;
+                    background: #f9f9f9;
+                    font-weight: bold;
+                }
+                .amount-input input {
+                    flex: 1;
+                    border: none;
+                    padding: 0.75rem;
+                    font-size: 1.2rem;
+                }
+                .quick-amounts {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.5rem;
+                    margin: 1rem 0;
+                }
+                .quick-amount {
+                    padding: 0.75rem;
+                    background: #f9f9f9;
+                    border: 1px solid #EEEEEE;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                }
+                .quick-amount:hover {
+                    background: #84934A;
+                    color: white;
+                }
+                .modal-buttons {
+                    display: flex;
+                    gap: 1rem;
+                    margin-top: 1.5rem;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Add functionality
+            modal.querySelector('.cancel-btn').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                document.head.removeChild(style);
+            });
+            
+            modal.querySelectorAll('.quick-amount').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const amount = this.getAttribute('data-amount');
+                    modal.querySelector('input').value = amount;
+                });
+            });
+            
+            modal.querySelector('.proceed-btn').addEventListener('click', () => {
+                const amount = modal.querySelector('input').value;
+                if (amount && amount >= 100) {
+                    alert(`Thank you for your contribution of ₱${amount} to ${title}. You will be redirected to payment.`);
+                    document.body.removeChild(modal);
+                    document.head.removeChild(style);
+                } else {
+                    alert('Please enter a valid amount (minimum ₱100)');
+                }
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.head.removeChild(style);
+                }
+            });
+        }
+
+        function showDetailsModal(title, description) {
+            const modal = document.createElement('div');
+            modal.className = 'details-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>${title}</h3>
+                    <p>${description}</p>
+                    <h4>Includes:</h4>
+                    <ul>
+                        <li>Complete set of high-quality items</li>
+                        <li>Warranty and after-sales support</li>
+                        <li>Delivery and setup assistance</li>
+                        <li>Color and style customization options</li>
+                    </ul>
+                    <button class="btn-primary close-details">Close</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .details-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 2000;
+                }
+                .details-modal .modal-content {
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 10px;
+                    max-width: 500px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                }
+                .details-modal ul {
+                    margin: 1rem 0;
+                    padding-left: 1.5rem;
+                }
+                .details-modal li {
+                    margin-bottom: 0.5rem;
+                }
+                .close-details {
+                    margin-top: 1rem;
+                    width: 100%;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Close functionality
+            modal.querySelector('.close-details').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                document.head.removeChild(style);
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.head.removeChild(style);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

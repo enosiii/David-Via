@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Party | David & Aira</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .party-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(73, 40, 40, 0.6), rgba(73, 40, 40, 0.6)),
+                        url('https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+
+        .party-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .party-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .event-details {
+            background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+            padding: 4rem 0;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #EEEEEE;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #AEB877;
+        }
+
+        .detail-icon {
+            font-size: 2rem;
+            color: #84934A;
+        }
+
+        .detail-title {
+            font-size: 1.8rem;
+            color: #492828;
+            margin: 0;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .detail-item {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #492828;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .map-container {
+            height: 300px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #84934A, #AEB877);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .parking-info {
+            background: #FFF9E6;
+            border-left: 4px solid #AEB877;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .schedule-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #EEEEEE;
+            transition: background 0.3s;
+        }
+
+        .schedule-item:hover {
+            background: #f9f9f9;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-icon {
+            width: 40px;
+            height: 40px;
+            background: #AEB877;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .schedule-content {
+            flex: 1;
+        }
+
+        .schedule-title {
+            font-weight: 600;
+            color: #492828;
+            margin-bottom: 0.25rem;
+        }
+
+        .schedule-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .party-section {
+            margin: 4rem 0;
+        }
+
+        .party-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .party-category {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            color: #492828;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #AEB877;
+        }
+
+        .party-member {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .party-member:hover {
+            transform: translateX(5px);
+        }
+
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #84934A, #AEB877);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: #492828;
+            margin-bottom: 0.25rem;
+        }
+
+        .member-role {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .couple-pair {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pair-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .pair-names {
+            flex: 1;
+            padding: 0 1rem;
+        }
+
+        .pair-number {
+            width: 30px;
+            height: 30px;
+            background: #84934A;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .rsvp-deadline {
+            background: linear-gradient(135deg, #84934A, #AEB877);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 3rem auto;
+            max-width: 600px;
+        }
+
+        .rsvp-deadline h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .deadline-date {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .btn-large {
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .party-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .party-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pair-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .pair-names {
+                padding: 0;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="pwa-prompt" class="pwa-prompt">
+        <div class="pwa-content">
+            <div class="pwa-header">
+                <i class="fas fa-heart"></i>
+                <h3>Install Wedding App</h3>
+                <button class="close-pwa">&times;</button>
+            </div>
+            <p>Add to home screen for easy access to wedding details, countdown, and RSVP!</p>
+            <div class="pwa-buttons">
+                <button id="install-pwa" class="btn-install">Add to Home</button>
+                <button class="btn-later">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">D&A</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="story.html" class="nav-link">Our Story</a></li>
+                <li class="nav-item"><a href="party.html" class="nav-link active">Wedding Party</a></li>
+                <li class="nav-item"><a href="wishes.html" class="nav-link">Wishes</a></li>
+                <li class="nav-item"><a href="registry.html" class="nav-link">Registry</a></li>
+                <li class="nav-item"><a href="rsvp.html" class="nav-link">RSVP</a></li>
+                <li class="nav-item"><a href="game.html" class="nav-link">Game</a></li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="party-hero">
+        <div class="hero-content">
+            <h1>Wedding Party & Details</h1>
+            <p>Meet our family and friends who are part of our special day</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- Event Details Section -->
+        <section class="event-details">
+            <div class="detail-card">
+                <div class="detail-header">
+                    <div class="detail-icon">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <h2 class="detail-title">Event Details</h2>
+                </div>
+                
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Date</div>
+                        <div class="detail-value">July 11, 2026</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Time</div>
+                        <div class="detail-value">2:00 PM</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">RSVP Deadline</div>
+                        <div class="detail-value">June 11, 2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-header">
+                    <div class="detail-icon">
+                        <i class="fas fa-church"></i>
+                    </div>
+                    <h2 class="detail-title">Ceremony Venue</h2>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Location</div>
+                    <div class="detail-value">Church Name</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Address</div>
+                    <div class="detail-value">123 Church Street, City, Country</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Time</div>
+                    <div class="detail-value">2:00 PM - 3:30 PM</div>
+                </div>
+                
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span style="margin-left: 10px;">Map will be available soon</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-header">
+                    <div class="detail-icon">
+                        <i class="fas fa-glass-cheers"></i>
+                    </div>
+                    <h2 class="detail-title">Reception Venue</h2>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Location</div>
+                    <div class="detail-value">Reception Name</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Address</div>
+                    <div class="detail-value">456 Reception Avenue, City, Country</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Time</div>
+                    <div class="detail-value">4:00 PM onwards</div>
+                </div>
+                
+                <div class="parking-info">
+                    <div class="detail-label">Parking Information</div>
+                    <div class="detail-value">
+                        <p>• Complimentary valet parking available</p>
+                        <p>• Additional parking at adjacent parking lot</p>
+                        <p>• Carpooling is encouraged</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-header">
+                    <div class="detail-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h2 class="detail-title">Dress Code</h2>
+                </div>
+                
+                <div class="dress-code-content">
+                    <p>We kindly request our guests to dress in colors that complement our wedding theme.</p>
+                    
+                    <div style="margin: 1.5rem 0;">
+                        <div class="detail-label">Gentlemen</div>
+                        <div class="detail-value">Traditional Barong Tagalog</div>
+                    </div>
+                    
+                    <div style="margin: 1.5rem 0;">
+                        <div class="detail-label">Ladies</div>
+                        <div class="detail-value">Coffee Brown Formal Dress, Cocktail Dress, or Elegant Separates</div>
+                    </div>
+                    
+                    <div class="color-palette">
+                        <div class="detail-label" style="margin-bottom: 1rem;">Theme Colors</div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <div class="color-swatch" style="background: #EEEEEE; color: #333;">#EEEEEE</div>
+                            <div class="color-swatch" style="background: #AEB877;">#AEB877</div>
+                            <div class="color-swatch" style="background: #84934A;">#84934A</div>
+                            <div class="color-swatch" style="background: #492828; color: white;">#492828</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-header">
+                    <div class="detail-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h2 class="detail-title">Wedding Schedule</h2>
+                </div>
+                
+                <ul class="schedule-list">
+                    <li class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">Guests Arrival</div>
+                            <div class="schedule-desc">Welcome and seating</div>
+                        </div>
+                    </li>
+                    
+                    <li class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="fas fa-ring"></i>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">Processional</div>
+                            <div class="schedule-desc">Entrance of wedding party</div>
+                        </div>
+                    </li>
+                    
+                    <li class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">Ceremony</div>
+                            <div class="schedule-desc">Exchange of vows and rings</div>
+                        </div>
+                    </li>
+                    
+                    <li class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">Photo Session</div>
+                            <div class="schedule-desc">Family and group photos</div>
+                        </div>
+                    </li>
+                    
+                    <li class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="fas fa-glass-cheers"></i>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">Cocktail Hour</div>
+                            <div class="schedule-desc">Drinks and appetizers</div>
+                        </div>
+                    </li>
+                    
+                    <li class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">Reception</div>
+                            <div class="schedule-desc">Dinner and program</div>
+                        </div>
+                    </li>
+                    
+                    <li class="schedule-item">
+                        <div class="schedule-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">Dancing & Celebration</div>
+                            <div class="schedule-desc">Party time!</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Wedding Party Section -->
+        <section class="party-section">
+            <div class="section-header">
+                <h2>Our Wedding Party</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+
+            <div class="party-grid">
+                <!-- Parents -->
+                <div class="party-category">
+                    <h3 class="category-title">Parents of the Couple</h3>
+                    
+                    <div class="couple-pair">
+                        <div class="pair-item">
+                            <div class="pair-number">1</div>
+                            <div class="pair-names">
+                                <div class="member-name">Mr. & Mrs. Tan</div>
+                                <div class="member-role">Parents of the Groom</div>
+                            </div>
+                        </div>
+                        
+                        <div class="pair-item">
+                            <div class="pair-number">2</div>
+                            <div class="pair-names">
+                                <div class="member-name">Mr. & Mrs. De Jesus</div>
+                                <div class="member-role">Parents of the Bride</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Principal Sponsors -->
+                <div class="party-category">
+                    <h3 class="category-title">God Parents / Sponsors</h3>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">1</div>
+                        <div class="member-info">
+                            <div class="member-name">Mr. & Mrs. Sponsor 1</div>
+                            <div class="member-role">Principal Sponsor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">2</div>
+                        <div class="member-info">
+                            <div class="member-name">Mr. & Mrs. Sponsor 2</div>
+                            <div class="member-role">Principal Sponsor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">3</div>
+                        <div class="member-info">
+                            <div class="member-name">Mr. & Mrs. Sponsor 3</div>
+                            <div class="member-role">Principal Sponsor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">4</div>
+                        <div class="member-info">
+                            <div class="member-name">Mr. & Mrs. Sponsor 4</div>
+                            <div class="member-role">Principal Sponsor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">5</div>
+                        <div class="member-info">
+                            <div class="member-name">Mr. & Mrs. Sponsor 5</div>
+                            <div class="member-role">Principal Sponsor</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Maid of Honor & Best Man -->
+                <div class="party-category">
+                    <h3 class="category-title">Maid of Honor & Best Man</h3>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">MH</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name</div>
+                            <div class="member-role">Maid of Honor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">BM</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name</div>
+                            <div class="member-role">Best Man</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Sponsors -->
+                <div class="party-category">
+                    <h3 class="category-title">Secondary Sponsors</h3>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">C</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name</div>
+                            <div class="member-role">Candle Sponsor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">V</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name</div>
+                            <div class="member-role">Veil Sponsor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">C</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name</div>
+                            <div class="member-role">Cord Sponsor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">A</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name Pair 4</div>
+                            <div class="member-role">Secondary Sponsor</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">A</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name Pair 5</div>
+                            <div class="member-role">Secondary Sponsor</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flower Girls & Bearers -->
+                <div class="party-category">
+                    <h3 class="category-title">Flower Girls & Bearers</h3>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">F1</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Flower Girl 1</div>
+                            <div class="member-role">Flower Girl</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">F2</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Flower Girl 2</div>
+                            <div="member-role">Flower Girl</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">F3</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Flower Girl 3</div>
+                            <div class="member-role">Flower Girl</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">R</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name</div>
+                            <div class="member-role">Ring Bearer</div>
+                        </div>
+                    </div>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">B</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Name</div>
+                            <div class="member-role">Bible Bearer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Officiating Minister -->
+                <div class="party-category">
+                    <h3 class="category-title">Officiating Minister</h3>
+                    
+                    <div class="party-member">
+                        <div class="member-avatar">P</div>
+                        <div class="member-info">
+                            <div class="member-name">Placeholder Pastor</div>
+                            <div class="member-role">Officiating Pastor</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Deadline -->
+        <div class="rsvp-deadline">
+            <h3>RSVP Deadline</h3>
+            <div class="deadline-date">June 11, 2026</div>
+            <p>Please confirm your attendance by the deadline so we can prepare everything perfectly.</p>
+            <a href="rsvp.html" class="btn-primary btn-large">
+                <i class="fas fa-check-circle"></i> RSVP Now
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>
