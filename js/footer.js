@@ -4,7 +4,7 @@ const footerTemplate = `
     <div class="footer-content">
         <div class="footer-grid">
             <div class="footer-section">
-                <h3 class="footer-title">David & Aira</h3>
+                <h3 class="footer-title">David & Via</h3>
                 <p class="footer-subtitle">July 11, 2026</p>
                 <p class="rsvp-reminder">Please RSVP on or before June 11, 2026</p>
                 
@@ -26,7 +26,7 @@ const footerTemplate = `
                     <a href="wishes.html">Wishes</a>
                     <a href="registry.html">Registry</a>
                     <a href="rsvp.html">RSVP</a>
-                    <a href="game.html">Game</a>
+                    <a href="mgame.html">Game</a>
                 </nav>
             </div>
             
@@ -37,7 +37,7 @@ const footerTemplate = `
                         <h4>Groom</h4>
                         <p>David Roy S. Tan</p>
                         <a href="mailto:david@example.com" class="contact-link">
-                            <i class="fas fa-envelope"></i> Email
+                            <i class="fas fa-envelope"></i> Email 
                         </a>
                         <a href="https://m.me/david" class="contact-link">
                             <i class="fab fa-facebook-messenger"></i> Messenger
@@ -47,7 +47,7 @@ const footerTemplate = `
                         <h4>Bride</h4>
                         <p>Aira Via Gil V. De Jesus</p>
                         <a href="mailto:aira@example.com" class="contact-link">
-                            <i class="fas fa-envelope"></i> Email
+                            <i class="fas fa-envelope"></i> Email 
                         </a>
                         <a href="https://m.me/aira" class="contact-link">
                             <i class="fab fa-facebook-messenger"></i> Messenger
@@ -70,7 +70,7 @@ const footerTemplate = `
 
 <style>
     .site-footer {
-        background-color: #492828;
+        background-color: #AEB877; //#492828;
         color: #EEEEEE;
         padding: 3rem 0 2rem;
         margin-top: 3rem;
@@ -96,10 +96,10 @@ const footerTemplate = `
     .footer-title {
         font-family: 'Playfair Display', serif;
         font-size: 1.3rem;
-        color: #AEB877;
+        color: #492828;
         margin-bottom: 1rem;
         padding-bottom: 0.5rem;
-        border-bottom: 2px solid #AEB877;
+        border-bottom: 2px solid #492828;
     }
 
     .footer-subtitle {
@@ -110,8 +110,8 @@ const footerTemplate = `
 
     .rsvp-reminder {
         font-size: 0.9rem;
-        color: #AEB877;
-        background: rgba(174, 184, 119, 0.1);
+        color: #492828;
+        background: rgba(174, 184, 119, 0.1); //NEED to CHANGE
         padding: 0.5rem;
         border-radius: 4px;
         margin: 1rem 0;
@@ -131,7 +131,7 @@ const footerTemplate = `
     }
 
     .footer-nav a:hover {
-        color: #AEB877;
+        color: #492828;
         padding-left: 5px;
     }
 
@@ -163,21 +163,21 @@ const footerTemplate = `
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        color: #84934A;
+        color: #492828;
         text-decoration: none;
         font-size: 0.9rem;
         transition: color 0.3s;
     }
 
     .contact-link:hover {
-        color: #AEB877;
+        color: #84934A;
     }
 
     .footer-install {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 1rem;
+        background: rgba(238, 238, 238, 0.1);
+        padding: 0.5rem;
         border-radius: 8px;
-        margin-top: 1rem;
+        //margin-top: 1rem;
     }
 
     .install-link {
@@ -191,16 +191,18 @@ const footerTemplate = `
         text-decoration: none;
         font-weight: 500;
         transition: background 0.3s;
+        text-align: center;
     }
 
     .install-link:hover {
-        background: #AEB877;
+        background: #492828;
     }
 
     .install-note {
         font-size: 0.8rem;
-        color: #AEB877;
-        margin-top: 0.5rem;
+        color: #492828;
+        margin-top: 1rem;
+        text-align: center;
     }
 
     .footer-bottom {

@@ -118,7 +118,7 @@ p {
 }
 
 .nav-logo {
-    font-family: var(--font-script);
+    font-family: var(--font-script);  
     font-size: 2rem;
     color: var(--brown);
     text-decoration: none;
@@ -142,6 +142,7 @@ p {
     padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .nav-link:hover {
@@ -549,7 +550,7 @@ p {
 
     .nav-menu {
         position: fixed;
-        left: -100%;
+        right: -100%;
         top: 70px;
         flex-direction: column;
         background-color: var(--white);
@@ -562,7 +563,7 @@ p {
     }
 
     .nav-menu.active {
-        left: 0;
+        right: 0;
     }
 
     .nav-item {
