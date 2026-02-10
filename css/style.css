@@ -198,6 +198,9 @@ p {
     font-size: 1.5rem;
     margin-bottom: var(--spacing-lg);
     letter-spacing: 3px;
+    font-weight: bold;
+        /* color: var(--light-green); */
+    
 }
 
 /* Countdown */
