@@ -528,6 +528,7 @@
         let lastFetchTime = 0;
         let colorIndex = 0;
         let shuffleQueue = []; // Tracks order of messages to prevent consecutive repeats
+        let priorityQueue = []; // Newly submitted messages — shown immediately before shuffle
 
         // Color palette matching wedding theme
         const BUBBLE_COLORS = [
@@ -826,6 +827,13 @@
                 return;
             }
 
+            // Priority queue: always show newly submitted messages first
+            if (priorityQueue.length > 0) {
+                const message = priorityQueue.shift();
+                createBubble(message, container);
+                return;
+            }
+
             // Refill and reshuffle the queue when empty
             if (shuffleQueue.length === 0) {
                 shuffleQueue = shuffleArray(allMessages);
@@ -992,12 +1000,15 @@
                         
                         allMessages.unshift(newMessage);
                         displayedMessages.add(msgId);
-                        
-                        // Immediately display the new message if possible
-                        const container = document.getElementById('floatingMessages');
-                        if (container && activeBubbles.length < MAX_BUBBLES) {
-                            createBubble(newMessage, container);
-                        }
+
+                        // Push to priority queue so the animation loop spawns
+                        // this bubble as soon as the next slot opens up —
+                        // even if MAX_BUBBLES is currently full.
+                        priorityQueue.push(newMessage);
+
+                        // Also invalidate the shuffle queue so this message
+                        // doesn't get skipped until the next full cycle.
+                        shuffleQueue = [];
                         
                         // Reset form
                         this.reset();

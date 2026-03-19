@@ -587,7 +587,7 @@
                         <p>Please contact:</p>
                         <p><strong><i class="fab fa-facebook-messenger"></i> David Roy Tan:</strong> <a href="https://m.me/Davidroytan" target="_blank" rel="noopener noreferrer" style="color: #84934A;"> Chat on Messenger </a></p>
                         <p><strong><i class="fab fa-facebook-messenger"></i> Aira Via De Jesus:</strong> <a href="https://m.me/airaviagil" target="_blank" rel="noopener noreferrer" style="color: #84934A;">Chat on Messenger </a></p>
-                        <p><strong><i class="fab fa-at"></i> Email:</strong> <a href="mailto:davidandcia@gmail.com" style="color: #84934A;">davidandvia@gmail.com</a></p>
+                        <p><strong><i class="fab fa-at"></i> Email:</strong> <a href="/cdn-cgi/l/email-protection#513530273835303f3532383011363c30383d7f323e3c" style="color: #84934A;"><span class="__cf_email__" data-cfemail="761217001f12171812001f1736111b171f1a5815191b">[email&#160;protected]</span></a></p>
                     </div>
                 </div>
             </div>
@@ -597,7 +597,7 @@
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/main.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/main.js"></script>
     <script src="js/footer.js"></script>
     <script>
         // ============================================
@@ -702,7 +702,7 @@
         // ============================================
         const rsvpForm = document.getElementById('rsvpForm');
         if (rsvpForm) {
-            rsvpForm.addEventListener('submit', function(e) {
+            rsvpForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 // 1. Get form data
@@ -751,42 +751,46 @@
                 const scriptURL = 'https://script.google.com/macros/s/AKfycby1MyaDNIYPL2Tb-uZFTKUXNniN6j1V2s5oQLHK52dU-RoE1G6fMm4IW6ELQWY8Z0RQ/exec';
                 
                 // 5. Send to Google Apps Script
-                fetch(scriptURL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    cache: 'no-cache',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(() => {
-                    showAlert('Thank you for your RSVP! We look forward to celebrating with you.', 'success');
-                    
-                    submitBtn.innerHTML = '<i class="fas fa-check"></i> RSVP Sent';
-                    submitBtn.style.background = '#84934A';
-                    
-                    setTimeout(() => {
-                        this.reset();
-                        guestNamesContainer.style.display = 'none';
-                        setAttendanceMode(true); // reset fields back to visible
-                        attendanceYes.classList.remove('selected');
-                        attendanceNo.classList.remove('selected');
-                        
+                // Uses form-encoded body — no preflight, CORS passes.
+                // Apps Script reads fields via e.parameter on the server side.
+                try {
+                    const response = await fetch(scriptURL, {
+                        method: 'POST',
+                        body: new URLSearchParams(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.result === 'success') {
+                        showAlert('Thank you for your RSVP! We look forward to celebrating with you.', 'success');
+
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> RSVP Sent';
+                        submitBtn.style.background = '#84934A';
+
                         setTimeout(() => {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = originalText;
-                            submitBtn.style.background = '';
-                        }, 5000);
-                    }, 2000);
-                    
-                })
-                .catch(error => {
+                            this.reset();
+                            guestNamesContainer.style.display = 'none';
+                            setAttendanceMode(true);
+                            attendanceYes.classList.remove('selected');
+                            attendanceNo.classList.remove('selected');
+
+                            setTimeout(() => {
+                                submitBtn.disabled = false;
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.style.background = '';
+                            }, 5000);
+                        }, 2000);
+
+                    } else {
+                        throw new Error(result.message || 'Submission failed');
+                    }
+
+                } catch (error) {
                     console.error('Error!', error.message);
                     showAlert('Something went wrong. Please try again.', 'error');
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
-                });
+                }
             });
         }
         
@@ -863,6 +867,7 @@
                 }
                 
                 document.getElementById('ceremony').checked = true;
+                
                 document.getElementById('reception').checked = true;
                 
                 console.log('Form filled with test data');
