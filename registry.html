@@ -405,7 +405,7 @@
                 <!-- Item 1 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Kitchen Appliances">
+                        <img src="assets/kitchen.png" alt="Kitchen Appliances">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Kitchen Essentials</h3>
@@ -436,7 +436,7 @@
                 <!-- Item 2 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Living Room Set">
+                        <img src="assets/livingroom.png" alt="Living Room Set">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Living Room Set</h3>
@@ -467,11 +467,11 @@
                 <!-- Item 3 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Bedroom Set">
+                        <img src="assets/bedroom.png" alt="Bedroom Set">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Bedroom Furniture</h3>
-                        <p class="registry-description">Queen-size bed frame, mattress, and bedside tables for restful nights.</p>
+                        <p class="registry-description">Bed mattress, and bedside tables for restful nights.</p>
                         
                         <!-- <div class="registry-amount">
                             <span class="amount-label">Target Amount</span>
@@ -498,11 +498,11 @@
                 <!-- Item 4 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Dining Set">
+                        <img src="assets/dining.png" alt="Dining Set">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Dining Set</h3>
-                        <p class="registry-description">6-seater dining table and chairs for family dinners and entertaining guests.</p>
+                        <p class="registry-description">Dining table and chairs for family dinners and entertaining guests.</p>
                         
                         <!-- <div class="registry-amount">
                             <span class="amount-label">Target Amount</span>
@@ -529,11 +529,11 @@
                 <!-- Item 5 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Home Appliances">
+                        <img src="assets/appliance.png" alt="Home Appliances">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Home Appliances</h3>
-                        <p class="registry-description">Refrigerator, washing machine, and other essential home appliances.</p>
+                        <p class="registry-description">Toaster, Vacuum, and other essential home appliances.</p>
                         
                         <!-- <div class="registry-amount">
                             <span class="amount-label">Target Amount</span>
@@ -560,7 +560,7 @@
                 <!-- Item 6 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Honeymoon Fund">
+                        <img src="assets/honeymoon.png" alt="Honeymoon Fund">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Honeymoon Fund</h3>
@@ -835,7 +835,50 @@
             });
         }
 
+        // Per-category include lists keyed by registry card title
+        const registryIncludes = {
+            'Kitchen Essentials': [
+                'Enameled Cast Iron Casserole Pot',
+                'Ceramic Dinnerware Set',
+                'Essential Kitchen Tools',
+                'Stylish Storage'
+            ],
+            'Living Room Set': [
+                'Neutral Linen Throw Pillows',
+                'Chunky Knit Wool Blanket',
+                'Decorative Ceramic Vase',
+                'Cozy Textiles'
+            ],
+            'Bedroom Furniture': [
+                'Premium Linen Bedding Set',
+                'Minimalist Nightstand',
+                'Neutral Area Rug',
+                'High quality Mattress'
+            ],
+            'Dining Set': [
+                'Solid Dining Table',
+                'Woven Rattan Dining Chairs',
+                'Quality Utensils',
+                'Crystal Wine Glass Set'
+            ],
+            'Home Appliances': [
+                'Oven Toaster',
+                'Digital Air Fryer',
+                'Cordless Hand Vacuum',
+                'Professional Stand Mixer'
+            ],
+            'Honeymoon Fund': [
+                'Overwater Villa Stay',
+                'Private Beach Dinner',
+                'Island Hopping Excursion',
+                "Couple's Spa Treatment"
+            ]
+        };
+
         function showDetailsModal(title, description) {
+            const items = registryIncludes[title] || [];
+            const listItems = items.map(item => `<li>${item}</li>`).join('');
+
             const modal = document.createElement('div');
             modal.className = 'details-modal';
             modal.innerHTML = `
@@ -843,12 +886,7 @@
                     <h3>${title}</h3>
                     <p>${description}</p>
                     <h4>Includes:</h4>
-                    <ul>
-                        <li>Complete set of high-quality items</li>
-                        <li>Warranty and after-sales support</li>
-                        <li>Delivery and setup assistance</li>
-                        <li>Color and style customization options</li>
-                    </ul>
+                    <ul>${listItems}</ul>
                     <button class="btn-primary close-details">Close</button>
                 </div>
             `;
