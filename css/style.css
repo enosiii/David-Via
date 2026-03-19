@@ -583,7 +583,7 @@ p {
     }
 
     .countdown {
-        gap: var(--spacing-sm);
+        gap: 8px;
     }
 
     .countdown-number {
@@ -616,7 +616,7 @@ p {
 
 @media (max-width: 480px) {
     .countdown {
-        gap: 8px;
+        gap: 6px;
     }
     
     .countdown-number {
