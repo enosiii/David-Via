@@ -26,9 +26,10 @@ document.addEventListener('click', (event) => {
 // Add to Calendar Function
 function addToCalendar() {
     const event = {
-        title: 'David & Aira Wedding',
-        description: 'Wedding ceremony of David Roy S. Tan and Aira Via Gil V. De Jesus',
-        location: 'Church Name, Reception Name',
+        title: 'Wedding of David & Via 💍',
+        description: `We are so excited to celebrate our special day with you! 😍
+Wedding Ceremony and Reception (2:00 PM at The Royal Branch Events Place)`,
+        location: 'The Royal Branch Events Place',
         startTime: '2026-07-11T14:00:00',
         endTime: '2026-07-11T22:00:00'
     };
