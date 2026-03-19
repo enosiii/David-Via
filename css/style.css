@@ -50,9 +50,12 @@ h1, h2, h3, h4 {
     color: var(--brown);
     line-height: 1.3;
 }
-
 h1 {
     font-size: clamp(2.5rem, 5vw, 3.5rem);
+
+    /* format: x-offset y-offset blur color */
+    text-shadow: 0 0 3px #ffffff; 
+    
 }
 
 h2 {
@@ -70,7 +73,7 @@ p {
 }
 
 .section {
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-lg) 0;
 }
 
 .section-header {
@@ -126,13 +129,13 @@ p {
 
 .logo-text {
     font-weight: bold;
-    color: var(--green);
+    color: var(--brown);
 }
 
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: var(--spacing-md);
+    gap: var(--spacing-xs);
 }
 
 .nav-link {
@@ -170,21 +173,27 @@ p {
     height: 100vh;
     min-height: 600px;
     background: linear-gradient(rgba(73, 40, 40, 0.3), rgba(73, 40, 40, 0.3)),
-                url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+                url('../images/DV19.png');
     background-size: cover;
     background-position: center;
     display: flex;
+    /* align-items: center;
+    justify-content: center; */
+    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: center;
+    min-height: 100vh;
     color: var(--white);
     text-align: center;
     padding-top: 70px;
+    padding-bottom: 1rem;
 }
 
 .hero-content {
+    /* margin-top: 20%; */
     z-index: 2;
-    max-width: 800px;
-    padding: var(--spacing-lg);
+    max-width: 700px;
+    padding: var(--spacing-md);
 }
 
 .couple-names {
@@ -196,7 +205,7 @@ p {
 
 .wedding-date {
     font-size: 1.5rem;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
     letter-spacing: 3px;
     font-weight: bold;
         /* color: var(--light-green); */
@@ -208,7 +217,7 @@ p {
     background-color: rgba(238, 238, 238, 0.9);
     padding: var(--spacing-md);
     border-radius: 10px;
-    margin: var(--spacing-lg) 0;
+    margin: var(--spacing-sm) 0;
 }
 
 .countdown-title {
@@ -268,7 +277,7 @@ p {
 .btn-hero {
     background-color: var(--light-green);
     color: var(--white);
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-sm);
     font-size: 1.1rem;
 }
 
@@ -278,12 +287,12 @@ p {
 }
 
 .btn-primary {
-    background-color: var(--green);
+    background-color: var(--brown);
     color: var(--white);
 }
 
 .btn-primary:hover {
-    background-color: var(--brown);
+    background-color: var(--green);
 }
 
 .btn-secondary {
@@ -293,7 +302,7 @@ p {
 }
 
 .btn-secondary:hover {
-    background-color: var(--green);
+    background-color: var(--brown);
     color: var(--white);
 }
 
@@ -421,7 +430,7 @@ p {
 
 .detail-icon {
     font-size: 2.5rem;
-    color: var(--light-green);
+    color: var(--brown);
     margin-bottom: var(--spacing-sm);
 }
 
@@ -598,6 +607,11 @@ p {
     .pwa-prompt {
         bottom: 80px;
     }
+
+        .hero-content {
+        /* margin-top: 40%; */
+        padding: var(--spacing-sm);
+    }
 }
 
 @media (max-width: 480px) {
@@ -612,6 +626,43 @@ p {
     }
     
     .hero-content {
+        /* margin-top: 65%; */
         padding: var(--spacing-sm);
     }
+}
+
+@media (max-width: 400px) {
+    .countdown {
+        gap: 6px;
+    }
+
+    .countdown-label {
+        font-size: 0.7rem;
+    }
+
+    .countdown-title {
+        margin-bottom: 1rem;
+    }
+
+    .countdown-container {
+        padding: 1rem;
+    }
+    
+    .countdown-number {
+        min-width: 45px;
+        font-size: 1.2rem;
+        padding: 6px;
+    }
+    
+    .hero-content {
+        /* margin-top: 65%; */
+        padding: var(--spacing-sm);
+    }
+
+    .btn-hero {
+    background-color: var(--light-green);
+    color: var(--white);
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
 }

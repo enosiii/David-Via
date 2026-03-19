@@ -1,5 +1,6 @@
 class CountdownTimer {
     constructor(targetDate, elementId) {
+        this.weddingDate = new Date('July 11, 2026 14:00:00');
         this.targetDate = new Date(targetDate).getTime();
         this.elementId = elementId;
         this.interval = null;
@@ -16,112 +17,24 @@ class CountdownTimer {
         }
     }
 
-    update() {
-        const now = new Date().getTime();
-        const distance = this.targetDate - now;
+    getNextAnniversary() {
+        const now = new Date();
+        const weddingYear = this.weddingDate.getFullYear();
+        const weddingMonth = this.weddingDate.getMonth();
+        const weddingDay = this.weddingDate.getDate();
 
-        if (distance < 0) {
-            this.stop();
-            document.getElementById(this.elementId).innerHTML = 
-                `<div class="timer-complete">The event has started!</div>`;
-            return;
+        // Find which anniversary year we're currently counting toward
+        let nextYear = now.getFullYear();
+        let nextAnniversary = new Date(nextYear, weddingMonth, weddingDay, 14, 0, 0);
+
+        // If this year's anniversary has already passed, move to next year
+        if (now >= nextAnniversary) {
+            nextYear += 1;
+            nextAnniversary = new Date(nextYear, weddingMonth, weddingDay, 14, 0, 0);
         }
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        document.getElementById('days').textContent = this.formatTime(days);
-        document.getElementById('hours').textContent = this.formatTime(hours);
-        document.getElementById('minutes').textContent = this.formatTime(minutes);
-        document.getElementById('seconds').textContent = this.formatTime(seconds);
-    }
-
-    formatTime(time) {
-        return time < 10 ? `0${time}` : time;
-    }
-}
-
-class AnniversaryCountdown {
-    constructor() {
-        this.anniversaries = [
-            { year: 1, date: '2027-07-11' },
-            { year: 2, date: '2028-07-11' },
-            { year: 3, date: '2029-07-11' },
-            { year: 5, date: '2031-07-11' },
-            { year: 10, date: '2036-07-11' }
-        ];
-        this.container = document.getElementById('anniversary-countdowns');
-        this.interval = null;
-    }
-
-    start() {
-        this.render();
-        this.interval = setInterval(() => this.update(), 1000);
-    }
-
-    render() {
-        this.container.innerHTML = this.anniversaries.map(anniversary => `
-            <div class="anniversary-card" id="anniversary-${anniversary.year}">
-                <h3 class="anniversary-title">${this.getOrdinal(anniversary.year)} Anniversary in</h3>
-                <div class="anniversary-countdown">
-                    <div class="anniversary-item">
-                        <div class="anniversary-number days-${anniversary.year}">00</div>
-                        <div class="anniversary-label">Days</div>
-                    </div>
-                    <div class="anniversary-item">
-                        <div class="anniversary-number hours-${anniversary.year}">00</div>
-                        <div class="anniversary-label">Hours</div>
-                    </div>
-                    <div class="anniversary-item">
-                        <div class="anniversary-number minutes-${anniversary.year}">00</div>
-                        <div class="anniversary-label">Minutes</div>
-                    </div>
-                    <div class="anniversary-item">
-                        <div class="anniversary-number seconds-${anniversary.year}">00</div>
-                        <div class="anniversary-label">Seconds</div>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-        this.update();
-    }
-
-    update() {
-        const now = new Date().getTime();
-
-        this.anniversaries.forEach(anniversary => {
-            const targetDate = new Date(anniversary.date).getTime();
-            const distance = targetDate - now;
-
-            if (distance > 0) {
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                this.updateElement(`.days-${anniversary.year}`, this.formatTime(days));
-                this.updateElement(`.hours-${anniversary.year}`, this.formatTime(hours));
-                this.updateElement(`.minutes-${anniversary.year}`, this.formatTime(minutes));
-                this.updateElement(`.seconds-${anniversary.year}`, this.formatTime(seconds));
-            } else {
-                this.updateElement(`#anniversary-${anniversary.year} .anniversary-title`, 
-                    `${this.getOrdinal(anniversary.year)} Anniversary Completed! 🎉`);
-                this.updateElement(`#anniversary-${anniversary.year} .anniversary-countdown`, '');
-            }
-        });
-    }
-
-    updateElement(selector, content) {
-        const element = document.querySelector(selector);
-        if (element) {
-            element.textContent = content;
-        }
-    }
-
-    formatTime(time) {
-        return time < 10 ? `0${time}` : time;
+        const anniversaryNumber = nextYear - weddingYear;
+        return { date: nextAnniversary, number: anniversaryNumber };
     }
 
     getOrdinal(n) {
@@ -129,16 +42,62 @@ class AnniversaryCountdown {
         const v = n % 100;
         return n + (s[(v - 20) % 10] || s[v] || s[0]);
     }
+
+    update() {
+        const now = new Date().getTime();
+        const distance = this.targetDate - now;
+
+        // Wedding hasn't happened yet — normal wedding countdown
+        if (distance > 0) {
+            document.getElementById('days').textContent = this.formatTime(Math.floor(distance / (1000 * 60 * 60 * 24)));
+            document.getElementById('hours').textContent = this.formatTime(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            document.getElementById('minutes').textContent = this.formatTime(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            document.getElementById('seconds').textContent = this.formatTime(Math.floor((distance % (1000 * 60)) / 1000));
+            return;
+        }
+
+        // Wedding has passed — switch to anniversary countdown
+        this.stop();
+
+        const { date: nextAnniversary, number: anniversaryNumber } = this.getNextAnniversary();
+        const anniversaryDistance = nextAnniversary.getTime() - now;
+
+        // Update the title to show anniversary label
+        const titleEl = document.querySelector('.countdown-title');
+        if (titleEl) {
+            titleEl.textContent = `${this.getOrdinal(anniversaryNumber)} Anniversary in`;
+        }
+
+        // Update numbers immediately
+        const updateAnniversary = () => {
+            const n = new Date().getTime();
+            const d = nextAnniversary.getTime() - n;
+
+            if (d <= 0) {
+                // Anniversary just hit — restart to pick up the next one
+                clearInterval(this.anniversaryInterval);
+                this.start();
+                return;
+            }
+
+            document.getElementById('days').textContent = this.formatTime(Math.floor(d / (1000 * 60 * 60 * 24)));
+            document.getElementById('hours').textContent = this.formatTime(Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            document.getElementById('minutes').textContent = this.formatTime(Math.floor((d % (1000 * 60 * 60)) / (1000 * 60)));
+            document.getElementById('seconds').textContent = this.formatTime(Math.floor((d % (1000 * 60)) / 1000));
+        };
+
+        updateAnniversary();
+        this.anniversaryInterval = setInterval(updateAnniversary, 1000);
+    }
+
+    formatTime(time) {
+        return time < 10 ? `0${time}` : time;
+    }
 }
 
-// Initialize countdowns when DOM is loaded
+// Initialize countdown when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Main wedding countdown
     const weddingDate = 'July 11, 2026 14:00:00';
     const countdownTimer = new CountdownTimer(weddingDate, 'countdown');
     countdownTimer.start();
-
-    // Anniversary countdowns
-    const anniversaryCountdown = new AnniversaryCountdown();
-    anniversaryCountdown.start();
 });

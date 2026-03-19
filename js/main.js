@@ -66,10 +66,6 @@ END:VCALENDAR`;
                     <i class="fas fa-apple-alt"></i>
                     <span>Apple Calendar</span>
                 </a>
-                <a href="${url}" download="david-aira-wedding.ics" class="calendar-option">
-                    <i class="fab fa-microsoft"></i>
-                    <span>Outlook</span>
-                </a>
             </div>
             <button class="modal-close">Close</button>
         </div>

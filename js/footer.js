@@ -6,7 +6,7 @@ const footerTemplate = `
             <div class="footer-section">
                 <h3 class="footer-title">David & Via</h3>
                 <p class="footer-subtitle">July 11, 2026</p>
-                <p class="rsvp-reminder">Please RSVP on or before June 11, 2026</p>
+                <p class="rsvp-reminder">Please RSVP on or before June 01, 2026</p>
                 
                 <div class="footer-install">
                     <a href="install.html" class="install-link">
@@ -22,7 +22,7 @@ const footerTemplate = `
                 <nav class="footer-nav">
                     <a href="index.html">Home</a>
                     <a href="story.html">Our Story</a>
-                    <a href="party.html">Wedding Party</a>
+                    <a href="party.html">Wedding Details</a>
                     <a href="wishes.html">Wishes</a>
                     <a href="registry.html">Registry</a>
                     <a href="rsvp.html">RSVP</a>
@@ -36,20 +36,20 @@ const footerTemplate = `
                     <div class="contact-item">
                         <h4>Groom</h4>
                         <p>David Roy S. Tan</p>
-                        <a href="mailto:david@example.com" class="contact-link">
-                            <i class="fas fa-envelope"></i> Email 
-                        </a>
-                        <a href="https://m.me/david" class="contact-link">
+                        <!-- <a href="mailto:david@example.com" class="contact-link">
+                             <i class="fas fa-envelope"></i> Email 
+                         </a> -->
+                        <a href="https://m.me/Davidroytan" class="contact-link">
                             <i class="fab fa-facebook-messenger"></i> Messenger
                         </a>
                     </div>
                     <div class="contact-item">
                         <h4>Bride</h4>
                         <p>Aira Via Gil V. De Jesus</p>
-                        <a href="mailto:aira@example.com" class="contact-link">
+                        <!-- <a href="mailto:aira@example.com" class="contact-link">
                             <i class="fas fa-envelope"></i> Email 
-                        </a>
-                        <a href="https://m.me/aira" class="contact-link">
+                         </a> -->
+                        <a href="https://m.me/airaviagil" class="contact-link">
                             <i class="fab fa-facebook-messenger"></i> Messenger
                         </a>
                     </div>
@@ -185,9 +185,9 @@ const footerTemplate = `
         align-items: center;
         gap: 0.5rem;
         color: #EEEEEE;
-        background: #84934A;
+        background: #492828;
         padding: 0.75rem 1.5rem;
-        border-radius: 5px;
+        border-radius: 10px;
         text-decoration: none;
         font-weight: 500;
         transition: background 0.3s;
@@ -195,7 +195,7 @@ const footerTemplate = `
     }
 
     .install-link:hover {
-        background: #492828;
+        background: #84934A;
     }
 
     .install-note {

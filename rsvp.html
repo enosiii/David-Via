@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RSVP | David & Via</title>
+    <link rel="icon" type="image/png" href="/assets/icon.png">
+    <link rel="apple-touch-icon" href="/assets/icon.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,8 +14,8 @@
             position: relative;
             height: 50vh;
             min-height: 300px;
-            background: linear-gradient(rgba(73, 40, 40, 0.6), rgba(73, 40, 40, 0.6)),
-                        url('https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background: linear-gradient(rgba(73, 40, 40, 0.2), rgba(73, 40, 40, 0.5)),
+                        url('/images/DV16.jpg') no-repeat;
             background-size: cover;
             background-position: center;
             display: flex;
@@ -168,6 +170,11 @@
             margin: 0;
         }
 
+        /* FIX 3 — attending-only wrapper */
+        .attending-only.hidden {
+            display: none;
+        }
+
         /* FAQ Section */
         .faq-section {
             margin-top: 4rem;
@@ -176,8 +183,8 @@
         }
 
         .faq-item {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
             border-bottom: 1px solid #EEEEEE;
         }
 
@@ -341,7 +348,7 @@
             <ul class="nav-menu">
                 <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="story.html" class="nav-link">Our Story</a></li>
-                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Party</a></li>
+                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Details</a></li>
                 <li class="nav-item"><a href="wishes.html" class="nav-link">Wishes</a></li>
                 <li class="nav-item"><a href="registry.html" class="nav-link">Registry</a></li>
                 <li class="nav-item"><a href="rsvp.html" class="nav-link active">RSVP</a></li>
@@ -359,7 +366,7 @@
     <div class="rsvp-hero">
         <div class="hero-content">
             <h1>RSVP</h1>
-            <p>Please respond by <strong>June 11, 2026</strong></p>
+            <p>Please respond by <strong>June 01, 2026</strong></p>
         </div>
     </div>
 
@@ -413,79 +420,62 @@
                     <div class="attendance-options">
                         <label class="attendance-option" id="attendanceYes">
                             <input type="radio" name="attendance" value="Yes" required>
-                            
                             <span>Yes, I'll be there!</span><i class="fas fa-check-circle"></i>
                         </label>
                         <label class="attendance-option" id="attendanceNo">
                             <input type="radio" name="attendance" value="No" required>
-                            
                             <span>No, I can't make it</span><i class="fas fa-times-circle"></i>
                         </label>
                     </div>
                 </div>
 
-                <!-- NUMBER OF GUESTS -->
-                <div class="form-group">
-                    <label class="form-label" for="guests">
-                        Number of Guests <span class="required">*</span>
-                    </label>
-                    <select class="form-control" id="guests" name="guests" required>
-                        <!-- <option value="">Select number of guests</option> -->
-                        <option value="1">1 (Just me)</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <!-- <option value="6">6</option> -->
-                    </select>
-                </div>
+                <!-- FIX 3 — Attending-only fields wrapped in one block.
+                     Hidden when "No" is selected; required stripped from
+                     all inputs inside so they don't block submission. -->
+                <div class="attending-only" id="attendingOnlyFields">
 
-                <!-- GUEST NAMES (Dynamic) -->
-                <div class="guest-names-container" id="guestNamesContainer">
-                    <label class="form-label">Guest Names</label>
-                    <div id="guestNamesInputs">
-                        <!-- Dynamic inputs will be added here via JavaScript -->
+                    <!-- NUMBER OF GUESTS -->
+                    <div class="form-group">
+                        <label class="form-label" for="guests">
+                            Number of Guests <span class="required">*</span>
+                        </label>
+                        <select class="form-control" id="guests" name="guests" required>
+                            <option value="1">1 (Just me)</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
                     </div>
-                </div>
 
-                <!-- EVENTS ATTENDING -->
-                <div class="form-group">
-                    <label class="form-label">Which events will you attend?</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="events" value="Ceremony" id="ceremony">
-                            <label for="ceremony">Wedding Ceremony (2:00 PM at Church Name)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="events" value="Reception" id="reception">
-                            <label for="reception">Reception (Following ceremony at Reception Name)</label>
+                    <!-- GUEST NAMES (Dynamic) -->
+                    <div class="guest-names-container" id="guestNamesContainer">
+                        <label class="form-label">Guest Names</label>
+                        <div id="guestNamesInputs">
+                            <!-- Dynamic inputs will be added here via JavaScript -->
                         </div>
                     </div>
+
+                    <!-- EVENTS ATTENDING -->
+                    <!-- FIX 4 — * added to label; validated in JS before submit -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Which events will you attend? <span class="required">*</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="events" value="Ceremony" id="ceremony">
+                                <label for="ceremony">Wedding Ceremony (2:00 PM)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="events" value="Reception" id="reception">
+                                <label for="reception">Reception (Following ceremony)</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-
-                <!-- DIETARY RESTRICTIONS -->
-                <!-- <div class="form-group">
-                    <label class="form-label" for="dietary">Dietary Restrictions or Allergies</label>
-                    <textarea class="form-control" id="dietary" name="dietary" rows="3" 
-                              placeholder="Please list any dietary restrictions, allergies, or special meal requirements"></textarea>
-                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
-                        <i class="fas fa-info-circle"></i> This helps us ensure everyone enjoys the meal.
-                    </p>
-                </div> -->
-
-                <!-- SONG REQUEST -->
-                <!-- <div class="form-group">
-                    <label class="form-label" for="song">Song Request</label>
-                    <input type="text" class="form-control" id="song" name="song" 
-                           placeholder="Request a song for the reception dance floor">
-                </div> -->
-
-                <!-- MESSAGE FOR THE COUPLE -->
-                <!-- <div class="form-group">
-                    <label class="form-label" for="message">Message for David & Via</label>
-                    <textarea class="form-control" id="message" name="message" rows="4" 
-                              placeholder="Share your well wishes, memories, or advice for the newlyweds"></textarea>
-                </div> -->
+                <!-- END attending-only -->
 
                 <!-- SUBMIT BUTTON -->
                 <div style="text-align: center; margin-top: 3rem;">
@@ -518,7 +508,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer" id="faqAnswer1">
-                        <p>Please RSVP by <strong>June 11, 2026</strong>. This gives us enough time to finalize seating arrangements, catering numbers, and other important details.</p>
+                        <p>Please RSVP by <strong>June 01, 2026</strong>. This gives us enough time to finalize seating arrangements, catering numbers, and other important details.</p>
                     </div>
                 </div>
 
@@ -540,7 +530,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer" id="faqAnswer3">
-                        <p>We request our guests to dress in colors that complement our wedding theme. Gentlemen: Traditional Barong Tagalog. Ladies: Coffee Brown Formal Dress, Cocktail Dress, or Elegant Separates. Please see <a href="party.html" style="color: #84934A; text-decoration: underline;">Wedding Party</a> page for more details.</p>
+                        <p>We request our guests to dress in colors that complement our wedding theme. Gentlemen: Traditional Barong Tagalog. Ladies: Brown Formal Dress. Please see <a href="party.html" style="color: #84934A; text-decoration: underline;">Wedding Details</a> page for more details.</p>
                     </div>
                 </div>
 
@@ -551,7 +541,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer" id="faqAnswer4">
-                        <p>Yes! Both the church and reception venue have ample parking available. Complimentary valet parking will be provided at the reception venue.</p>
+                        <p>Yes! The venue have ample parking available. Complimentary valet parking will be provided at the reception venue.</p>
                     </div>
                 </div>
 
@@ -562,7 +552,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer" id="faqAnswer5">
-                        <p>Please arrive at the church by 1:30 PM for the 2:00 PM ceremony. This allows time for seating and ensures the ceremony starts promptly.</p>
+                        <p>Please arrive at the Venue by 1:30 PM for the 2:00 PM ceremony. This allows time for seating and ensures the ceremony starts promptly.</p>
                     </div>
                 </div>
 
@@ -573,7 +563,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer" id="faqAnswer6">
-                        <p>Yes, you can update your RSVP until <strong>June 11, 2026</strong>. Please contact us directly if you need to make changes after submitting. After the deadline, changes may not be possible due to final arrangements.</p>
+                        <p>Yes, you can update your RSVP until <strong>June 01, 2026</strong>. Please contact us directly if you need to make changes after submitting. After the deadline, changes may not be possible due to final arrangements.</p>
                     </div>
                 </div>
 
@@ -593,13 +583,11 @@
                     <div class="faq-question" onclick="toggleFAQ(8)">
                         <span>Who should I contact with questions?</span>
                         <span class="faq-toggle">+</span>
-                    </div>
-                    <div class="faq-answer" id="faqAnswer8">
+                    </div><div class="faq-answer" id="faqAnswer8">
                         <p>Please contact:</p>
-                        <p><strong>David Roy S. Tan:</strong> +63 123 456 7890</p>
-                        <p><strong>Aira Via De Jesus:</strong> +63 987 654 3210</p>
-                        <p>Email: wedding.davidaira@example.com</p>
-                        <p>Or message us directly through the contact information in the footer.</p>
+                        <p><strong><i class="fab fa-facebook-messenger"></i> David Roy Tan:</strong> <a href="https://m.me/Davidroytan" target="_blank" rel="noopener noreferrer" style="color: #84934A;"> Chat on Messenger </a></p>
+                        <p><strong><i class="fab fa-facebook-messenger"></i> Aira Via De Jesus:</strong> <a href="https://m.me/airaviagil" target="_blank" rel="noopener noreferrer" style="color: #84934A;">Chat on Messenger </a></p>
+                        <p><strong><i class="fab fa-at"></i> Email:</strong> <a href="mailto:davidandcia@gmail.com" style="color: #84934A;">davidandvia@gmail.com</a></p>
                     </div>
                 </div>
             </div>
@@ -609,48 +597,63 @@
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <script src="js/main.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/main.js"></script>
     <script src="js/footer.js"></script>
     <script>
         // ============================================
-        // ATTENDANCE OPTION SELECTION
+        // ELEMENT REFERENCES
         // ============================================
-        const attendanceYes = document.getElementById('attendanceYes');
-        const attendanceNo = document.getElementById('attendanceNo');
-        
-        if (attendanceYes && attendanceNo) {
-            // Add click handlers for visual feedback
-            attendanceYes.addEventListener('click', function() {
+        const attendanceYes       = document.getElementById('attendanceYes');
+        const attendanceNo        = document.getElementById('attendanceNo');
+        const attendingOnlyFields = document.getElementById('attendingOnlyFields');
+        const guestsSelect        = document.getElementById('guests');
+        const guestNamesContainer = document.getElementById('guestNamesContainer');
+        const guestNamesInputs    = document.getElementById('guestNamesInputs');
+
+        // ============================================
+        // FIX 3 — ATTENDANCE TOGGLE
+        // Shows/hides guest count, guest names, and events based on attendance.
+        // Strips required from hidden inputs so they never block submission.
+        // ============================================
+        function setAttendanceMode(attending) {
+            if (attending) {
                 attendanceYes.classList.add('selected');
                 attendanceNo.classList.remove('selected');
-            });
-            
-            attendanceNo.addEventListener('click', function() {
+                attendingOnlyFields.classList.remove('hidden');
+                // Restore required on the guests select
+                guestsSelect.setAttribute('required', '');
+            } else {
                 attendanceNo.classList.add('selected');
                 attendanceYes.classList.remove('selected');
-            });
-            
-            // Also trigger on radio button change
+                attendingOnlyFields.classList.add('hidden');
+                // Remove required from all inputs/selects inside so they
+                // don't block form submission when the section is hidden
+                attendingOnlyFields.querySelectorAll('input, select').forEach(el => {
+                    el.removeAttribute('required');
+                    if (el.type === 'checkbox') el.checked = false;
+                });
+                // Reset guest names
+                guestNamesContainer.style.display = 'none';
+                guestNamesInputs.innerHTML = '';
+                guestsSelect.value = '1';
+            }
+        }
+
+        if (attendanceYes && attendanceNo) {
+            attendanceYes.addEventListener('click', () => setAttendanceMode(true));
+            attendanceNo.addEventListener('click',  () => setAttendanceMode(false));
+
             document.querySelectorAll('input[name="attendance"]').forEach(radio => {
                 radio.addEventListener('change', function() {
-                    if (this.value === 'Yes') {
-                        attendanceYes.classList.add('selected');
-                        attendanceNo.classList.remove('selected');
-                    } else {
-                        attendanceNo.classList.add('selected');
-                        attendanceYes.classList.remove('selected');
-                    }
+                    setAttendanceMode(this.value === 'Yes');
                 });
             });
         }
-        
+
         // ============================================
         // DYNAMIC GUEST NAME INPUTS
+        // (unchanged from original)
         // ============================================
-        const guestsSelect = document.getElementById('guests');
-        const guestNamesContainer = document.getElementById('guestNamesContainer');
-        const guestNamesInputs = document.getElementById('guestNamesInputs');
-        
         if (guestsSelect && guestNamesContainer && guestNamesInputs) {
             guestsSelect.addEventListener('change', function() {
                 const numGuests = parseInt(this.value);
@@ -659,7 +662,6 @@
                 if (numGuests > 1) {
                     guestNamesContainer.style.display = 'block';
                     
-                    // Create input fields for each additional guest
                     for (let i = 2; i <= numGuests; i++) {
                         const div = document.createElement('div');
                         div.className = 'guest-name-input';
@@ -679,6 +681,7 @@
         
         // ============================================
         // FAQ TOGGLE FUNCTION
+        // (unchanged from original)
         // ============================================
         function toggleFAQ(faqNumber) {
             const answer = document.getElementById(`faqAnswer${faqNumber}`);
@@ -695,6 +698,7 @@
 
         // ============================================
         // RSVP FORM VALIDATION & SUBMISSION
+        // (original logic — fix 4 added inside)
         // ============================================
         const rsvpForm = document.getElementById('rsvpForm');
         if (rsvpForm) {
@@ -712,12 +716,15 @@
                 });
                 data.events = events.join(', ');
 
-                // Collect guest names
+                // FIX 2 — Keep guest2, guest3... keys intact in the payload so the
+                // Apps Script can read them individually (data['guest2'] etc.).
+                // guestNames is kept as a convenience summary but the individual
+                // keys are no longer deleted before sending.
                 const guestNames = [];
                 for (let i = 2; i <= parseInt(data.guests); i++) {
                     if (data[`guest${i}`]) {
                         guestNames.push(data[`guest${i}`]);
-                        delete data[`guest${i}`];
+                        // removed: delete data[`guest${i}`]
                     }
                 }
                 data.guestNames = guestNames.join(', ');
@@ -727,6 +734,12 @@
                     showAlert('Please fill in all required fields.', 'error');
                     return;
                 }
+
+                // FIX 4 — Require at least one event when attending
+                if (data.attendance === 'Yes' && events.length === 0) {
+                    showAlert('Please select at least one event you will attend.', 'error');
+                    return;
+                }
                 
                 // 3. Show loading state
                 const submitBtn = this.querySelector('button[type="submit"]');
@@ -734,13 +747,13 @@
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                 submitBtn.disabled = true;
                 
-                // 4. Google Apps Script URL - REPLACE WITH YOUR URL
-                const scriptURL = 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_URL/exec';
+                // 4. Google Apps Script URL
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbyQ4UKevQot5p4NWDtCb76RoDwjPv18RrjjO6bXlWXxvuBPmtnhmMvC2SEcdcpw82rAgA/exec';
                 
                 // 5. Send to Google Apps Script
                 fetch(scriptURL, {
                     method: 'POST',
-                    mode: 'no-cors', // Important for Google Apps Script
+                    mode: 'no-cors',
                     cache: 'no-cache',
                     headers: {
                         'Content-Type': 'application/json'
@@ -748,21 +761,18 @@
                     body: JSON.stringify(data)
                 })
                 .then(() => {
-                    // Show success message
                     showAlert('Thank you for your RSVP! We look forward to celebrating with you.', 'success');
                     
-                    // Update button to show success
                     submitBtn.innerHTML = '<i class="fas fa-check"></i> RSVP Sent';
                     submitBtn.style.background = '#84934A';
                     
-                    // Reset form
                     setTimeout(() => {
                         this.reset();
                         guestNamesContainer.style.display = 'none';
+                        setAttendanceMode(true); // reset fields back to visible
                         attendanceYes.classList.remove('selected');
                         attendanceNo.classList.remove('selected');
                         
-                        // Reset button after 5 seconds
                         setTimeout(() => {
                             submitBtn.disabled = false;
                             submitBtn.innerHTML = originalText;
@@ -782,23 +792,20 @@
         
         // ============================================
         // ALERT MESSAGE FUNCTION
+        // (unchanged from original)
         // ============================================
         function showAlert(message, type) {
-            // Remove existing alerts
             const existingAlerts = document.querySelectorAll('.custom-alert');
             existingAlerts.forEach(alert => alert.remove());
             
-            // Create alert element
             const alertEl = document.createElement('div');
             alertEl.className = `custom-alert ${type}`;
             
-            // Set icon and message
             const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
             alertEl.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
             
             document.body.appendChild(alertEl);
             
-            // Remove after 5 seconds
             setTimeout(() => {
                 alertEl.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => {
@@ -813,7 +820,6 @@
         // INITIALIZE ON PAGE LOAD
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Add CSS for alert animations if not already present
             if (!document.getElementById('alertAnimations')) {
                 const style = document.createElement('style');
                 style.id = 'alertAnimations';
@@ -830,9 +836,9 @@
                 document.head.appendChild(style);
             }
             
-            // Auto-select first attendance option for better UX
+            // Auto-select Yes on load
             setTimeout(() => {
-                if (attendanceYes && !attendanceYes.classList.contains('selected') && 
+                if (!attendanceYes.classList.contains('selected') && 
                     !attendanceNo.classList.contains('selected')) {
                     attendanceYes.click();
                 }
@@ -843,16 +849,13 @@
         // TEST FUNCTION (For development only)
         // ============================================
         function testRSVP() {
-            // This is for testing purposes only
             console.log('Test RSVP function called');
             
-            // Fill form with test data
             document.getElementById('fullName').value = 'Test Guest ' + Math.floor(Math.random() * 1000);
             document.getElementById('email').value = 'test' + Math.floor(Math.random() * 1000) + '@example.com';
             attendanceYes.click();
             document.getElementById('guests').value = '2';
             
-            // Trigger guest name input
             setTimeout(() => {
                 const guestInput = document.querySelector('input[name="guest2"]');
                 if (guestInput) {
@@ -861,9 +864,6 @@
                 
                 document.getElementById('ceremony').checked = true;
                 document.getElementById('reception').checked = true;
-                document.getElementById('dietary').value = 'No restrictions';
-                document.getElementById('song').value = 'Test Song Request';
-                document.getElementById('message').value = 'This is a test RSVP submission. Congratulations!';
                 
                 console.log('Form filled with test data');
             }, 100);

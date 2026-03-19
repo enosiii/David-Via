@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wishes | David & Via</title>
+    <link rel="icon" type="image/png" href="/assets/icon.png">
+    <link rel="apple-touch-icon" href="/assets/icon.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,8 +14,8 @@
             position: relative;
             height: 50vh;
             min-height: 300px;
-            background: linear-gradient(rgba(73, 40, 40, 0.6), rgba(73, 40, 40, 0.6)),
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background: linear-gradient(rgba(73, 40, 40, 0.2), rgba(73, 40, 40, 0.5)),
+                        url('/images/DV16.jpg') no-repeat;
             background-size: cover;
             background-position: center;
             display: flex;
@@ -62,7 +64,8 @@
 
         .messages-intro {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
+            margin-top: 1.5rem;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto; 
@@ -79,8 +82,8 @@
             overflow: hidden;
             margin: 4rem 0;
             padding: 20px;
-            background: linear-gradient(rgba(132, 147, 74, 0.9), rgba(73, 40, 40, 0.9)),
-                        url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=30');
+            background: linear-gradient(rgba(132, 147, 74, 0.4), rgba(73, 40, 40, 0.4)),
+                        url('../images/DV05.jpg');
             background-size: cover;
             background-position: center;
             border-radius: 15px;
@@ -206,12 +209,12 @@
         .tips-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .tip-card {
-            padding: 1.5rem;
+            padding: 1rem;
             background: white;
             border-radius: 8px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.05);
@@ -288,7 +291,7 @@
         /* NEW: Adjust for mobile */
         @media (max-width: 768px) {
             .messages-grid {
-                min-height: 500px;
+                min-height: 600px;
                 padding: 10px !important;
             }
 
@@ -312,7 +315,7 @@
 
         @media (max-width: 480px) {
             .messages-grid {
-                min-height: 400px;
+                min-height: 500px;
             }
 
             .message-form-container {
@@ -340,13 +343,13 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <span class="logo-text">D&A</span>
+                <span class="logo-text">D&V</span>
             </a>
             
             <ul class="nav-menu">
                 <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="story.html" class="nav-link">Our Story</a></li>
-                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Party</a></li>
+                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Details</a></li>
                 <li class="nav-item"><a href="wishes.html" class="nav-link active">Wishes</a></li>
                 <li class="nav-item"><a href="registry.html" class="nav-link">Registry</a></li>
                 <li class="nav-item"><a href="rsvp.html" class="nav-link">RSVP</a></li>
@@ -409,11 +412,11 @@
                     </select>
                 </div>
                 
-                <!-- MESSAGE FIELD -->
+                <!-- MESSAGE FIELD --> 
                 <div class="form-group">
                     <label class="form-label" for="message">Your Message *</label>
                     <textarea class="form-control" id="message" name="message" rows="6" 
-                              required placeholder="Share your thoughts, memories, or well wishes for David & Via..."
+                              required placeholder="Share your thoughts, memories, or well wishes for David & Via..." 
                               maxlength="500"></textarea>
                     <div class="character-count">
                         <span id="charCount">0</span>/500 characters
@@ -511,8 +514,7 @@
         // ============================================
         // GLOBAL VARIABLES AND CONFIGURATION
         // ============================================
-        // Replace this with your Google Apps Script URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_URL/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpNgr-TuMmQEBPtm0EO-Z2GmdEGTb823P6SA_tDs43ma4BMth_eNBi_Ki6960Z0MZG/exec';
         const MAX_BUBBLES = 15;
         const MAX_MESSAGES = 100;
         const BUBBLE_SPEED_MIN = 0.3;
@@ -525,6 +527,7 @@
         let animationFrameId = null;
         let lastFetchTime = 0;
         let colorIndex = 0;
+        let shuffleQueue = []; // Tracks order of messages to prevent consecutive repeats
 
         // Color palette matching wedding theme
         const BUBBLE_COLORS = [
@@ -572,60 +575,63 @@
         async function fetchMessages() {
             try {
                 const now = Date.now();
-                if (now - lastFetchTime < 5000 && allMessages.length > 0) return;
+                if (now - lastFetchTime < 10000 && allMessages.length > 0) return; // Limit fetches to every 10 seconds
                 lastFetchTime = now;
 
-                // For demo purposes - using mock data
-                // Replace with actual Google Sheets API call
-                const mockMessages = [
-                    {
-                        name: "John & Sarah",
-                        relationship: "Friends",
-                        message: "Congratulations! Wishing you a lifetime of love and happiness.",
-                        timestamp: new Date().toISOString()
-                    },
-                    {
-                        name: "The Rodriguez Family",
-                        relationship: "Family",
-                        message: "So happy for both of you! Can't wait to celebrate with you.",
-                        timestamp: new Date(Date.now() - 86400000).toISOString()
-                    },
-                    {
-                        name: "Mark",
-                        relationship: "Best Friend",
-                        message: "David, so happy for you and Aira! May God bless your marriage.",
-                        timestamp: new Date(Date.now() - 172800000).toISOString()
-                    },
-                    {
-                        name: "Grace",
-                        relationship: "Co-worker",
-                        message: "Congratulations to the beautiful couple! Wishing you all the best.",
-                        timestamp: new Date(Date.now() - 259200000).toISOString()
-                    }
-                ];
+                const response = await fetch(`${SCRIPT_URL}?action=getData`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
+                const result = await response.json();
+
+                // Hide loading indicator
                 const loadingElement = document.getElementById('loadingMessages');
                 if (loadingElement) loadingElement.style.display = 'none';
 
-                mockMessages.forEach(msg => {
-                    const msgId = `${msg.name}-${msg.message}-${msg.timestamp}`;
-                    
-                    if (!displayedMessages.has(msgId)) {
-                        const newMsg = {
-                            name: msg.name || 'Anonymous',
-                            relationship: msg.relationship || '',
-                            message: msg.message || '',
-                            timestamp: msg.timestamp || new Date().toISOString(),
-                            id: msgId
-                        };
-                        
-                        allMessages.push(newMsg);
-                        displayedMessages.add(msgId);
-                    }
-                });
+                // Process data if successful
+                if (result.success && result.data && result.data.length > 0) {
+                    let newMessages = 0;
 
-                if (allMessages.length > MAX_MESSAGES) {
-                    allMessages = allMessages.slice(-MAX_MESSAGES);
+                    result.data.forEach(msg => {
+                        const msgId = `${msg.name}-${msg.message}-${msg.timestamp}`;
+
+                        const isInDisplayed = displayedMessages.has(msgId);
+                        const isInArray = allMessages.some(m => m.id === msgId);
+
+                        if (!isInDisplayed && !isInArray) {
+                            const newMsg = {
+                                name: escapeHtml(msg.name || 'Anonymous'),
+                                relationship: escapeHtml(msg.relationship || ''),
+                                message: escapeHtml(msg.message || ''),
+                                timestamp: msg.timestamp || new Date().toISOString(),
+                                id: msgId
+                            };
+
+                            allMessages.push(newMsg);
+                            displayedMessages.add(msgId);
+                            newMessages++;
+
+                            // Create visual bubble immediately
+                            const container = document.getElementById('floatingMessages');
+                            if (container) {
+                                createBubble(newMsg, container);
+                            }
+                        }
+                    });
+
+                    // Trim messages if we have too many
+                    if (allMessages.length > MAX_MESSAGES) {
+                        allMessages = allMessages.slice(-MAX_MESSAGES);
+                        displayedMessages.clear();
+                        allMessages.forEach(msg => displayedMessages.add(msg.id));
+                    }
+
+                    if (newMessages > 0) {
+                        console.log(`Added ${newMessages} new message(s)`);
+                    }
+                } else if (!result.success) {
+                    console.error('API Error:', result.error);
                 }
             } catch (error) {
                 console.error('Error fetching messages:', error);
@@ -678,23 +684,25 @@
             // Add to container first to measure dimensions
             container.appendChild(bubble);
             
-            // Random position at the bottom
-            const bubbleWidth = bubble.offsetWidth;
-            const maxX = containerRect.width - bubbleWidth;
-            const startX = Math.max(20, Math.min(maxX - 20, Math.random() * maxX));
-            
+            // Find position at the bottom (collision-aware)
+            const position = findPositionForBubble(bubble, containerRect, activeBubbles);
+
             // Set initial position at the bottom
-            bubble.style.left = `${startX}px`;
+            bubble.style.left = `${position.x}px`;
             bubble.style.top = `${containerRect.height}px`;
             
+            const bubbleWidth = bubble.offsetWidth;
+            const bubbleHeight = bubble.offsetHeight;
+
             // Store bubble reference
             const bubbleData = {
                 element: bubble,
-                x: startX,
+                x: position.x,
                 y: parseInt(bubble.style.top),
                 width: bubbleWidth,
-                height: bubble.offsetHeight,
+                height: bubbleHeight,
                 speed: BUBBLE_SPEED_MIN + Math.random() * (BUBBLE_SPEED_MAX - BUBBLE_SPEED_MIN),
+                isMoving: true,
                 isHovered: false,
                 messageId: messageData.id,
                 id: Date.now() + Math.random()
@@ -719,7 +727,96 @@
             
             return bubbleData;
         }
+
+        // ============================================
+        // FIND POSITION FOR NEW BUBBLE (AVOID COLLISIONS)
+        // ============================================
+        function findPositionForBubble(bubble, containerRect, existingBubbles) {
+            const bubbleWidth = bubble.offsetWidth;
+            const maxX = containerRect.width - bubbleWidth;
+
+            let bestX = Math.floor(Math.random() * maxX);
+            let minOverlap = Infinity;
+
+            // Test 10 candidate X positions, pick the least-overlapping one
+            for (let i = 0; i < 10; i++) {
+                const testX = Math.floor(Math.random() * maxX);
+                let totalOverlap = 0;
+
+                for (const activeBubble of existingBubbles) {
+                    // Only check bubbles near the bottom where new ones spawn
+                    if (activeBubble.y > containerRect.height - 100) {
+                        const overlap = calculateOverlap(
+                            testX, containerRect.height, bubbleWidth, bubble.offsetHeight,
+                            activeBubble.x, activeBubble.y, activeBubble.width, activeBubble.height
+                        );
+                        totalOverlap += overlap;
+                    }
+                }
+
+                if (totalOverlap < minOverlap) {
+                    minOverlap = totalOverlap;
+                    bestX = testX;
+                }
+            }
+
+            return { x: bestX, y: containerRect.height };
+        }
+
+        // ============================================
+        // CALCULATE OVERLAP AREA
+        // ============================================
+        function calculateOverlap(x1, y1, w1, h1, x2, y2, w2, h2) {
+            const xOverlap = Math.max(0, Math.min(x1 + w1, x2 + w2) - Math.max(x1, x2));
+            const yOverlap = Math.max(0, Math.min(y1 + h1, y2 + h2) - Math.max(y1, y2));
+            return xOverlap * yOverlap;
+        }
+
+        // ============================================
+        // CHECK IF BUBBLE CAN MOVE (NO COLLISIONS ABOVE)
+        // ============================================
+        function canBubbleMove(bubble) {
+            for (const otherBubble of activeBubbles) {
+                if (bubble.id === otherBubble.id) continue;
+
+                // Only check bubbles that are above this one
+                if (otherBubble.y < bubble.y) {
+                    if (doRectanglesOverlap(
+                        bubble.x, bubble.y - bubble.speed, bubble.width, bubble.height,
+                        otherBubble.x, otherBubble.y, otherBubble.width, otherBubble.height,
+                        5 // padding
+                    )) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // ============================================
+        // CHECK RECTANGLE OVERLAP WITH PADDING
+        // ============================================
+        function doRectanglesOverlap(x1, y1, w1, h1, x2, y2, w2, h2, padding = 5) {
+            return !(
+                x1 + w1 <= x2 + padding ||
+                x2 + w2 <= x1 + padding ||
+                y1 + h1 <= y2 + padding ||
+                y2 + h2 <= y1 + padding
+            );
+        }
         
+        // ============================================
+        // SHUFFLE ARRAY HELPER (Fisher-Yates)
+        // ============================================
+        function shuffleArray(arr) {
+            const shuffled = [...arr];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
         // ============================================
         // ADD BUBBLE IF CONDITIONS ARE RIGHT
         // ============================================
@@ -729,10 +826,21 @@
                 return;
             }
 
-            // Pick a random message
-            const randomIndex = Math.floor(Math.random() * allMessages.length);
-            const message = allMessages[randomIndex];
+            // Refill and reshuffle the queue when empty
+            if (shuffleQueue.length === 0) {
+                shuffleQueue = shuffleArray(allMessages);
 
+                // If more than one message exists, ensure the first item in the
+                // new queue isn't the same as the most recently shown bubble
+                if (shuffleQueue.length > 1 && activeBubbles.length > 0) {
+                    const lastShownId = activeBubbles[activeBubbles.length - 1].messageId;
+                    if (shuffleQueue[0].id === lastShownId) {
+                        shuffleQueue.push(shuffleQueue.shift());
+                    }
+                }
+            }
+
+            const message = shuffleQueue.shift();
             createBubble(message, container);
         }
 
@@ -742,6 +850,8 @@
         function animateBubbles() {
             const container = document.getElementById('floatingMessages');
             if (!container) return;
+
+            const containerRect = container.getBoundingClientRect();
             
             // Update each bubble's position
             for (let i = 0; i < activeBubbles.length; i++) {
@@ -749,16 +859,28 @@
                 
                 // Skip if bubble is hovered
                 if (bubble.isHovered) continue;
-                
-                // Move bubble upward
-                bubble.y -= bubble.speed;
-                bubble.element.style.top = `${bubble.y}px`;
-                
-                // Remove bubble if it goes above the container
+
+                // Remove bubble if it has gone above the container
                 if (bubble.y + bubble.height < 0) {
                     bubble.element.remove();
                     activeBubbles.splice(i, 1);
                     i--;
+                    continue;
+                }
+
+                // Check collision: stop if another bubble is directly above
+                const canMove = canBubbleMove(bubble);
+
+                if (canMove && !bubble.isMoving) {
+                    bubble.isMoving = true;
+                } else if (!canMove && bubble.isMoving) {
+                    bubble.isMoving = false;
+                }
+
+                // Move bubble upward only if allowed
+                if (bubble.isMoving) {
+                    bubble.y -= bubble.speed;
+                    bubble.element.style.top = `${bubble.y}px`;
                 }
             }
             
@@ -833,55 +955,57 @@
                 submitBtn.disabled = true;
                 
                 try {
-                    // Prepare data
+                    // Prepare data for Google Sheets
                     const timestamp = new Date().toISOString();
                     const data = {
                         name: name,
                         relationship: relationship,
                         message: message,
-                        timestamp: timestamp,
-                        action: 'submitMessage'
+                        timestamp: timestamp
                     };
                     
-                    // In a real implementation, you would send this to Google Sheets
-                    // const response = await fetch(SCRIPT_URL, {
-                    //     method: 'POST',
-                    //     headers: {
-                    //         'Content-Type': 'application/x-www-form-urlencoded',
-                    //     },
-                    //     body: new URLSearchParams(data)
-                    // });
-                    // const result = await response.json();
+                    // Send to Google Sheets via Apps Script
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams(data)
+                    });
                     
-                    // For demo - simulate success
-                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    const result = await response.json();
                     
-                    // Show success message
-                    showAlert('Message sent successfully! Thank you for your wishes.', 'success');
-                    
-                    // Add to local messages array
-                    const msgId = `${name}-${message}-${timestamp}`;
-                    const newMessage = {
-                        name: name,
-                        relationship: relationship,
-                        message: message,
-                        timestamp: timestamp,
-                        id: msgId
-                    };
-                    
-                    allMessages.unshift(newMessage);
-                    displayedMessages.add(msgId);
-                    
-                    // Immediately display the new message if possible
-                    const container = document.getElementById('floatingMessages');
-                    if (container && activeBubbles.length < MAX_BUBBLES) {
-                        createBubble(newMessage, container);
+                    if (result.success) {
+                        // Show success message
+                        showAlert('Message sent successfully! Thank you for your wishes.', 'success');
+                        
+                        // Add to local messages array
+                        const msgId = `${name}-${message}-${timestamp}`;
+                        const newMessage = {
+                            name: name,
+                            relationship: relationship,
+                            message: message,
+                            timestamp: timestamp,
+                            id: msgId,
+                            isNew: true
+                        };
+                        
+                        allMessages.unshift(newMessage);
+                        displayedMessages.add(msgId);
+                        
+                        // Immediately display the new message if possible
+                        const container = document.getElementById('floatingMessages');
+                        if (container && activeBubbles.length < MAX_BUBBLES) {
+                            createBubble(newMessage, container);
+                        }
+                        
+                        // Reset form
+                        this.reset();
+                        charCount.textContent = '0';
+                        
+                    } else {
+                        throw new Error(result.message || 'Failed to send message');
                     }
-                    
-                    // Reset form
-                    this.reset();
-                    charCount.textContent = '0';
-                    
                 } catch (error) {
                     console.error('Error submitting message:', error);
                     showAlert('Failed to send message. Please try again.', 'error');
