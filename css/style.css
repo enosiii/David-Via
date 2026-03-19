@@ -205,7 +205,7 @@ p {
 
 .wedding-date {
     font-size: 1.5rem;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
     letter-spacing: 3px;
     font-weight: bold;
         /* color: var(--light-green); */
@@ -217,13 +217,13 @@ p {
     background-color: rgba(238, 238, 238, 0.9);
     padding: var(--spacing-md);
     border-radius: 10px;
-    margin: var(--spacing-sm) 0;
+    margin: var(--spacing-xs) 0;
 }
 
 .countdown-title {
     color: var(--brown);
     font-size: 1.5rem;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
 }
 
 .countdown {
@@ -277,7 +277,7 @@ p {
 .btn-hero {
     background-color: var(--light-green);
     color: var(--white);
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
     font-size: 1.1rem;
 }
 
