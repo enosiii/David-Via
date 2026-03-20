@@ -7,7 +7,7 @@ const urlsToCache = [
   '/wishes.html',
   '/registry.html',
   '/rsvp.html',
-  '/game.html',
+  '/mgame.html',
   '/install.html',
   '/css/style.css',
   '/js/main.js',
