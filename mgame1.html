@@ -803,12 +803,7 @@
         const GAME_HEIGHT = 600;
         const GRAVITY = 0.5;
         const JUMP_STRENGTH = -8;
-        // Player image — original 200x113, scaled to 50x28 in-game
-        const BIRD_W = 45;
-        const BIRD_H = 30;
-        const BIRD_SIZE = BIRD_H; // kept for collision checks that use BIRD_SIZE
-        const playerImg = new Image();
-        playerImg.src = 'assets/player.png';
+        const BIRD_SIZE = 30;
         const OBSTACLE_WIDTH = 60;
         const OBSTACLE_GAP = 160;
         const OBSTACLE_SPEED = 3;
@@ -1177,16 +1172,16 @@
                 }
             }
             
-            if (bird.y < 0 || bird.y + BIRD_H > GAME_HEIGHT) {
+            if (bird.y < 0 || bird.y + BIRD_SIZE > GAME_HEIGHT) {
                 endGame();
             }
         }
 
         function checkCollision(obstacle) {
             const birdLeft = bird.x;
-            const birdRight = bird.x + BIRD_W;
+            const birdRight = bird.x + BIRD_SIZE;
             const birdTop = bird.y;
-            const birdBottom = bird.y + BIRD_H;
+            const birdBottom = bird.y + BIRD_SIZE;
             
             const obstacleLeft = obstacle.x;
             const obstacleRight = obstacle.x + OBSTACLE_WIDTH;
@@ -1334,11 +1329,17 @@
                 ctx.fillStyle = '#CFB095';
             });
             
-            // Draw player image
+            // Draw bird/heart player
             ctx.save();
-            ctx.translate(bird.x + BIRD_W / 2, bird.y + BIRD_H / 2);
+            ctx.translate(bird.x + BIRD_SIZE / 2, bird.y + BIRD_SIZE / 2);
             ctx.rotate(bird.rotation * Math.PI / 180);
-            ctx.drawImage(playerImg, -BIRD_W / 2, -BIRD_H / 2, BIRD_W, BIRD_H);
+            
+            // Draw main heart
+            drawHeart(0, 0, BIRD_SIZE, '#492828');
+            
+            // Draw small white heart in center
+            drawHeart(0, 7.5, BIRD_SIZE/2, '#EEEEEE');
+            
             ctx.restore();
             
             if (!gameStarted && !gameOver) {
