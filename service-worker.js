@@ -1,4 +1,5 @@
-const CACHE_NAME = 'david-via-wedding-v2';
+const CACHE_NAME = 'david-via-wedding-v3'; // ← bump this on every deploy
+
 const urlsToCache = [
   '/',
   '/index.html',
@@ -19,78 +20,86 @@ const urlsToCache = [
   'https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap'
 ];
 
-// Install event
+// ============================================
+// INSTALL — pre-cache all assets
+// ============================================
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
+  // skipWaiting forces the new SW to activate immediately
+  // instead of waiting for all tabs to close
+  self.skipWaiting();
 
-// Activate event
-self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
+    caches.open(CACHE_NAME).then(cache => {
+      console.log('Cache opened:', CACHE_NAME);
+      return cache.addAll(urlsToCache);
     })
   );
 });
 
-// Fetch event
+// ============================================
+// ACTIVATE — delete old caches, claim all tabs
+// ============================================
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(cacheNames =>
+        Promise.all(
+          cacheNames
+            .filter(name => name !== CACHE_NAME)
+            .map(name => {
+              console.log('Deleting old cache:', name);
+              return caches.delete(name);
+            })
+        )
+      )
+      // clients.claim() makes this SW take control of all open tabs immediately
+      // without requiring a page reload
+      .then(() => self.clients.claim())
+  );
+});
+
+// ============================================
+// FETCH — network-first strategy
+// Always tries the network first so users get
+// fresh content. Falls back to cache only when
+// offline or the network request fails.
+// ============================================
 self.addEventListener('fetch', event => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
+  // Skip non-GET requests (POST to Apps Script etc.)
+  if (event.request.method !== 'GET') return;
+
+  // Skip cross-origin requests (fonts, CDN)
+  if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
+    fetch(event.request)
+      .then(networkResponse => {
+        // Got a valid response from network — update the cache and return it
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
         }
-
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then(response => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Clone the response
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
-        });
+        return networkResponse;
       })
       .catch(() => {
-        // If both cache and network fail, show offline page
-        if (event.request.mode === 'navigate') {
-          return caches.match('/index.html');
-        }
+        // Network failed (offline) — serve from cache
+        return caches.match(event.request).then(cachedResponse => {
+          if (cachedResponse) return cachedResponse;
+
+          // If navigating to a page not in cache, fall back to index
+          if (event.request.mode === 'navigate') {
+            return caches.match('/index.html');
+          }
+        });
       })
   );
 });
 
-// Background sync for offline form submissions
+// ============================================
+// BACKGROUND SYNC — offline RSVP submissions
+// ============================================
 self.addEventListener('sync', event => {
   if (event.tag === 'sync-rsvp') {
     event.waitUntil(syncRSVPData());
@@ -101,16 +110,14 @@ async function syncRSVPData() {
   try {
     const db = await openRSVPIndexedDB();
     const offlineData = await getAllOfflineRSVP(db);
-    
+
     for (const data of offlineData) {
       const response = await fetch('https://script.google.com/macros/s/YOUR_APPS_SCRIPT_URL/exec', {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
       });
-      
+
       if (response.ok) {
         await deleteOfflineRSVP(db, data.id);
       }
@@ -120,56 +127,39 @@ async function syncRSVPData() {
   }
 }
 
-// Helper functions for IndexedDB
+// ============================================
+// INDEXEDDB HELPERS
+// ============================================
 function openRSVPIndexedDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('WeddingRSVP', 1);
-    
-    request.onupgradeneeded = function(event) {
+
+    request.onupgradeneeded = event => {
       const db = event.target.result;
       if (!db.objectStoreNames.contains('rsvpSubmissions')) {
         db.createObjectStore('rsvpSubmissions', { keyPath: 'id', autoIncrement: true });
       }
     };
-    
-    request.onsuccess = function(event) {
-      resolve(event.target.result);
-    };
-    
-    request.onerror = function(event) {
-      reject(event.target.error);
-    };
+
+    request.onsuccess = event => resolve(event.target.result);
+    request.onerror  = event => reject(event.target.error);
   });
 }
 
 function getAllOfflineRSVP(db) {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(['rsvpSubmissions'], 'readonly');
-    const store = transaction.objectStore('rsvpSubmissions');
-    const request = store.getAll();
-    
-    request.onsuccess = function() {
-      resolve(request.result);
-    };
-    
-    request.onerror = function() {
-      reject(request.error);
-    };
+    const tx      = db.transaction(['rsvpSubmissions'], 'readonly');
+    const request = tx.objectStore('rsvpSubmissions').getAll();
+    request.onsuccess = () => resolve(request.result);
+    request.onerror   = () => reject(request.error);
   });
 }
 
 function deleteOfflineRSVP(db, id) {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(['rsvpSubmissions'], 'readwrite');
-    const store = transaction.objectStore('rsvpSubmissions');
-    const request = store.delete(id);
-    
-    request.onsuccess = function() {
-      resolve();
-    };
-    
-    request.onerror = function() {
-      reject(request.error);
-    };
+    const tx      = db.transaction(['rsvpSubmissions'], 'readwrite');
+    const request = tx.objectStore('rsvpSubmissions').delete(id);
+    request.onsuccess = () => resolve();
+    request.onerror   = () => reject(request.error);
   });
 }
