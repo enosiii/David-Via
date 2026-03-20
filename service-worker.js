@@ -1,4 +1,4 @@
-const CACHE_NAME = 'david-via-wedding-v1';
+const CACHE_NAME = 'david-via-wedding-v2';
 const urlsToCache = [
   '/',
   '/index.html',
