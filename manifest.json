@@ -4,21 +4,19 @@
   "description": "Wedding website for David Roy S. Tan and Aira Via Gil V. De Jesus",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#EEEEEE",
-  "theme_color": "#AEB877",
+  "background_color": "#AE7e50",
+  "theme_color": "#AE7e50",
   "orientation": "portrait",
   "icons": [
     {
       "src": "/assets/icon192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "/assets/icon.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ],
   "categories": ["lifestyle", "social"],
