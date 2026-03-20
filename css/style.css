@@ -7,8 +7,8 @@
 
 :root {
     --white: #EEEEEE;
-    --light-green: #AEB877;
-    --green: #84934A;
+    --light-green: #CFB095;
+    --green: #D2B48C;
     --brown: #492828;
     --dark-brown: #3a1f1f;
     --gray: #666666;
@@ -282,17 +282,20 @@ p {
 }
 
 .btn-hero:hover {
-    background-color: var(--green);
+    background-color: var(--brown);
     transform: translateY(-2px);
 }
 
 .btn-primary {
+    border: 2px solid var(--green);
     background-color: var(--brown);
     color: var(--white);
 }
 
 .btn-primary:hover {
-    background-color: var(--green);
+    border: 2px solid var(--brown);
+    background-color:var(--green);
+    color: var(--brown);
 }
 
 .btn-secondary {
@@ -315,7 +318,7 @@ p {
 }
 
 .btn-calendar:hover {
-    background-color: var(--green);
+    background-color: var(--brown);
 }
 
 /* Couple Message */

@@ -58,7 +58,7 @@ const footerTemplate = `
         </div>
         
         <div class="footer-bottom">
-            <p class="copyright">© 2026 David Roy S. Tan & Aira Via Gil V. De Jesus - Made with ❤️</p>
+            <p class="copyright">© 2026 David Roy S. Tan & Aira Via Gil V. De Jesus - Made with <i class="fa-solid fa-heart"></i></p>
             <div class="social-links">
                 <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -70,7 +70,7 @@ const footerTemplate = `
 
 <style>
     .site-footer {
-        background-color: #AEB877; //#492828;
+        background-color: #CFB095; //#492828;
         color: #EEEEEE;
         padding: 3rem 0 2rem;
         margin-top: 3rem;
@@ -142,7 +142,7 @@ const footerTemplate = `
     }
 
     .contact-item h4 {
-        color: #AEB877;
+        color: #CFB095;
         margin-bottom: 0.5rem;
         font-size: 1rem;
     }
@@ -170,7 +170,7 @@ const footerTemplate = `
     }
 
     .contact-link:hover {
-        color: #84934A;
+        color: #fdfdfd;
     }
 
     .footer-install {
@@ -195,7 +195,7 @@ const footerTemplate = `
     }
 
     .install-link:hover {
-        background: #84934A;
+        background: #D2B48C;
     }
 
     .install-note {
@@ -237,7 +237,7 @@ const footerTemplate = `
     }
 
     .social-link:hover {
-        background: #AEB877;
+        background: #492828;
         transform: translateY(-2px);
     }
 

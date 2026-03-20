@@ -92,12 +92,12 @@
 
         .name-input-group input:focus {
             outline: none;
-            border-color: #AEB877;
+            border-color: #CFB095;
         }
 
         .btn-game {
             padding: 12px 30px;
-            background: #84934A;
+            background: #D2B48C;
             color: white;
             border: none;
             border-radius: 8px;
@@ -109,7 +109,7 @@
         }
 
         .btn-game:hover {
-            background: #AEB877;
+            background: #CFB095;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(132, 147, 74, 0.3);
         }
@@ -208,7 +208,7 @@
 
         .play-btn {
             padding: 20px 50px;
-            background: linear-gradient(135deg, #84934A, #AEB877);
+            background: linear-gradient(135deg, #D2B48C, #CFB095);
             color: white;
             border: none;
             border-radius: 50px;
@@ -221,7 +221,7 @@
         }
 
         .play-btn:hover {
-            background: linear-gradient(135deg, #AEB877, #84934A);
+            background: linear-gradient(135deg, #CFB095, #D2B48C);
             transform: scale(1.05);
         }
 
@@ -230,7 +230,7 @@
         }
 
         #gameCanvas {
-            border: 3px solid #84934A;
+            border: 3px solid #D2B48C;
             border-radius: 10px;
             max-width: 100%;
             display: block;
@@ -309,21 +309,21 @@
         }
 
         .leaderboard-item.top-1 {
-            background: linear-gradient(135deg, #AEB877, #84934A);
+            background: linear-gradient(135deg, #fdc493, #D2B48C);
             color: white;
-            border-color: #84934A;
+            border-color: #D2B48C;
         }
 
         .leaderboard-item.top-2 {
-            background: linear-gradient(135deg, #A0A96B, #84934A);
+            background: linear-gradient(135deg, #ebb689, #D2B48C);
             color: white;
-            border-color: #A0A96B;
+            border-color: #D2B48C;
         }
 
         .leaderboard-item.top-3 {
-            background: linear-gradient(135deg, #929A5F, #84934A);
+            background: linear-gradient(135deg, #d1a279, #D2B48C);
             color: white;
-            border-color: #929A5F;
+            border-color: #D2B48C;
         }
 
         .leaderboard-rank {
@@ -393,7 +393,7 @@
             text-align: center;
             max-width: 400px;
             margin: 20px;
-            border: 2px solid #AEB877;
+            border: 2px solid #CFB095;
         }
 
         .game-over-content h2 {
@@ -406,7 +406,7 @@
         .game-over-content .final-score {
             font-size: 3rem;
             font-weight: bold;
-            color: #84934A;
+            color: #D2B48C;
             margin: 20px 0;
         }
 
@@ -468,7 +468,7 @@
             margin: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             animation: slideUp 0.3s ease;
-            border: 2px solid #AEB877;
+            border: 2px solid #CFB095;
         }
 
         .custom-confirm-content h3 {
@@ -522,7 +522,7 @@
         .instruction-icon {
             width: 30px;
             height: 30px;
-            background: #AEB877;
+            background: #CFB095;
             color: white;
             border-radius: 50%;
             display: flex;
@@ -1319,14 +1319,14 @@
             ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             
             // Draw obstacles in wedding theme color
-            ctx.fillStyle = '#84934A';
+            ctx.fillStyle = '#CFB095';
             obstacles.forEach((obstacle, index) => {
                 ctx.fillRect(obstacle.x, 0, OBSTACLE_WIDTH, obstacle.topHeight);
                 ctx.fillRect(obstacle.x, obstacle.bottomY, OBSTACLE_WIDTH, GAME_HEIGHT - obstacle.bottomY);
                 
-                drawHeart(obstacle.x + OBSTACLE_WIDTH / 2, obstacle.topHeight - 40, 20, '#AEB877');
-                drawHeart(obstacle.x + OBSTACLE_WIDTH / 2, obstacle.bottomY + 20, 20, '#AEB877');
-                ctx.fillStyle = '#84934A';
+                drawHeart(obstacle.x + OBSTACLE_WIDTH / 2, obstacle.topHeight - 40, 20, '#3a1f1f');
+                drawHeart(obstacle.x + OBSTACLE_WIDTH / 2, obstacle.bottomY + 20, 20, '#3a1f1f');
+                ctx.fillStyle = '#CFB095';
             });
             
             // Draw bird/heart player
@@ -1409,7 +1409,7 @@
             
             let message = '';
             if (score > bestScore - 1 && score > 0) {
-                message = '<p style="color: #84934A; font-weight: bold;">🎉 NEW BEST SCORE! 🎉</p>';
+                message = '<p style="color: #D2B48C; font-weight: bold;">🎉 NEW BEST SCORE! 🎉</p>';
             } else if (score > 10) {
                 message = '<p>Great job! Keep practicing!</p>';
             } else if (score > 0) {
