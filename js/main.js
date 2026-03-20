@@ -63,7 +63,7 @@ END:VCALENDAR`;
                     <i class="fab fa-google"></i>
                     <span>Google Calendar</span>
                 </a>
-                <a href="${url}" download="david-aira-wedding.ics" class="calendar-option">
+                <a href="${url}" download="david-via-wedding.ics" class="calendar-option">
                     <i class="fas fa-apple-alt"></i>
                     <span>Apple Calendar</span>
                 </a>
