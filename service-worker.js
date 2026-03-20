@@ -1,4 +1,4 @@
-const CACHE_NAME = 'david-via-wedding-v3'; // ← bump this on every deploy
+const CACHE_NAME = 'david-via-wedding-v4'; // ← bump this on every deploy
 
 const urlsToCache = [
   '/',
