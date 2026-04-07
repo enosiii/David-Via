@@ -173,7 +173,7 @@ p {
     height: 100vh;
     min-height: 600px;
     background: linear-gradient(rgba(73, 40, 40, 0.3), rgba(73, 40, 40, 0.3)),
-                url('../images/DV19.png');
+                url('../assets/hero.png');
     background-size: cover;
     background-position: center;
     display: flex;
