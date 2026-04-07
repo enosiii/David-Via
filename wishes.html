@@ -163,6 +163,7 @@
             line-height: 1.4;
             font-size: 0.85rem;
             color: #666;
+            white-space: pre-line;
         }
 
         /* Form styling */
@@ -603,9 +604,9 @@
 
                         if (!isInDisplayed && !isInArray) {
                             const newMsg = {
-                                name: escapeHtml(msg.name || 'Anonymous'),
-                                relationship: escapeHtml(msg.relationship || ''),
-                                message: escapeHtml(msg.message || ''),
+                                name: msg.name || 'Anonymous',
+                                relationship: msg.relationship || '',
+                                message: msg.message || '',
                                 timestamp: msg.timestamp || new Date().toISOString(),
                                 id: msgId
                             };
