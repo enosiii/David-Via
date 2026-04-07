@@ -159,6 +159,10 @@ function isStandaloneMode() {
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 
+function hasInstallPromptBeenDismissed() {
+    return localStorage.getItem('pwaDismissed') === 'true';
+}
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
@@ -350,7 +354,7 @@ function createNotificationReminderCard() {
 }
 
 function canShowNotificationReminderCard() {
-    if (!isStandaloneMode()) {
+    if (!isStandaloneMode() && !hasInstallPromptBeenDismissed()) {
         return false;
     }
 
@@ -540,6 +544,7 @@ document.querySelector('.close-pwa')?.addEventListener('click', () => {
         pwaPrompt.style.display = 'none';
     }
     localStorage.setItem('pwaDismissed', 'true');
+    window.setTimeout(maybeShowNotificationReminderCard, 5000);
 });
 
 document.querySelector('.btn-later')?.addEventListener('click', () => {
@@ -547,6 +552,7 @@ document.querySelector('.btn-later')?.addEventListener('click', () => {
         pwaPrompt.style.display = 'none';
     }
     localStorage.setItem('pwaDismissed', 'true');
+    window.setTimeout(maybeShowNotificationReminderCard, 5000);
 });
 
 // Check if PWA is already installed

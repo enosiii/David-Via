@@ -90,9 +90,3 @@ curl -X GET "https://david-via-wedding.vercel.app/api/cron/send-wedding-reminder
   -H "Authorization: Bearer YOUR_CRON_SECRET"
 
 ```
-
-b34ebe62b4a895962d703966c585f7a398a694d1b521a3c14ddde95ed844ef9c
-```bash
-curl -X GET "https://david-via-wedding.vercel.app/api/cron/send-wedding-reminders" \
-  -H "Authorization: Bearer b34ebe62b4a895962d703966c585f7a398a694d1b521a3c14ddde95ed844ef9c"
-```
