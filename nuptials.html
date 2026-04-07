@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuptials | David & Via</title>
+    <link rel="icon" type="image/png" href="/assets/icon.png">
+    <link rel="apple-touch-icon" href="/assets/icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        .nuptials-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 320px;
+            background: linear-gradient(rgba(73, 40, 40, 0.22), rgba(73, 40, 40, 0.58)),
+                        url('/images/DV16.jpg') no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+
+        .nuptials-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .nuptials-hero p {
+            font-size: 1.1rem;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .nuptials-main {
+            padding: 4rem 0;
+            background: linear-gradient(180deg, #f9f6f2 0%, #ffffff 100%);
+        }
+
+        .intro-card {
+            max-width: 900px;
+            margin: 0.3rem auto 3rem;
+            padding: 2rem;
+            background: white;
+            border: 1px solid #eeeeee;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(73, 40, 40, 0.06);
+            text-align: center;
+        }
+
+        .intro-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .nuptials-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .nuptials-card {
+            flex: 1 1 280px;
+            max-width: 380px;
+            background: white;
+            border: 1px solid #eeeeee;
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 8px 22px rgba(73, 40, 40, 0.05);
+            margin: 0.3rem;
+        }
+
+        .nuptials-card.wide {
+            flex-basis: 100%;
+            max-width: 100%;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #cfb095;
+        }
+
+        .card-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #cfb095, #d2b48c);
+            color: white;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            margin: 0;
+            color: #492828;
+            font-size: 1.45rem;
+        }
+
+        .people-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .people-list.two-columns {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem 1.25rem;
+        }
+
+        .person-item {
+            padding: 0.9rem 1rem;
+            background: #f9f9f9;
+            border-radius: 10px;
+            color: #492828;
+            line-height: 1.5;
+        }
+
+        .sponsor-groups {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .sponsor-group {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border-top: 3px solid #cfb095;
+        }
+
+        .sponsor-group h3 {
+            margin-bottom: 0.85rem;
+            font-size: 1.1rem;
+            color: #492828;
+        }
+
+        .mini-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .mini-list li {
+            padding: 0.75rem 0.85rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #eeeeee;
+            color: #492828;
+        }
+
+        @media (max-width: 768px) {
+            .nuptials-hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .nuptials-main {
+                padding: 3rem 0;
+            }
+
+            .intro-card {
+                padding: 1.5rem;
+            }
+
+        }
+
+        
+        @media (max-width: 648px) {
+            
+            .people-list.two-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .sponsor-groups {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nuptials-hero {
+                min-height: 260px;
+                height: 42vh;
+            }
+
+            .nuptials-card {
+                padding: 1.25rem;
+            }
+
+            .card-header {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="pwa-prompt" class="pwa-prompt">
+        <div class="pwa-content">
+            <div class="pwa-header">
+                <i class="fas fa-heart"></i>
+                <h3>Install Wedding App</h3>
+                <button class="close-pwa">&times;</button>
+            </div>
+            <p>Add to home screen for easy access to wedding details, countdown, and RSVP!</p>
+            <div class="pwa-buttons">
+                <button id="install-pwa" class="btn-install">Add to Home</button>
+                <button class="btn-later">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">D&V</span>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="story.html" class="nav-link">Our Story</a></li>
+                <li class="nav-item"><a href="party.html" class="nav-link">Wedding Details</a></li>
+                <li class="nav-item"><a href="nuptials.html" class="nav-link active">Entourage</a></li>
+                <li class="nav-item"><a href="wishes.html" class="nav-link">Wishes</a></li>
+                <li class="nav-item"><a href="registry.html" class="nav-link">Registry</a></li>
+                <li class="nav-item"><a href="rsvp.html" class="nav-link">RSVP</a></li>
+                <li class="nav-item"><a href="mgame.html" class="nav-link">Game</a></li>
+            </ul>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="nuptials-hero">
+        <div class="hero-content">
+            <h1>The Entourage</h1>
+            <p>The family and friends who will walk with us, stand beside us, and witness this sacred moment.</p>
+        </div>
+    </section>
+
+    <main class="container nuptials-main">
+        <section class="intro-card">
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <h2>Nuptials</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <p>We are grateful for the people who have shaped our lives and who now share in this joyful celebration with us.</p>
+        </section>
+
+        <section class="nuptials-grid">
+            <article class="nuptials-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+                    <h2 class="card-title">Parents of the Groom</h2>
+                </div>
+                <ul class="people-list">
+                    <li class="person-item">Mrs. Milagros Tan</li>
+                    <li class="person-item">&#10013; Mr. Julio Tan</li>
+                </ul>
+            </article>
+
+            <article class="nuptials-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-user"></i></div>
+                    <h2 class="card-title">Parents of the Bride</h2>
+                </div>
+                <ul class="people-list">
+                    <li class="person-item">Mr. Virgilio De Jesus</li>
+                    <li class="person-item">Mrs. Elvira De Jesus</li>
+                </ul>
+            </article>
+
+            <article class="nuptials-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-church"></i></div>
+                    <h2 class="card-title">Wedding Officiant</h2>
+                </div>
+                <ul class="people-list">
+                    <li class="person-item">Pastor John Paolo Bautista</li>
+                </ul>
+            </article>
+
+            <article class="nuptials-card wide">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-star"></i></div>
+                    <h2 class="card-title">Principal Sponsors</h2>
+                </div>
+                <ul class="people-list two-columns">
+                    <li class="person-item">Mr. Antonio Mayor Jr</li>
+                    <li class="person-item">Mr. Glenn Dela Gracia</li>
+                    <li class="person-item">Mrs. Teresita Mayor</li>
+                    <li class="person-item">Mrs. Mylene Garcia</li>
+                    <li class="person-item">Mr. George Gonzales</li>
+                    <li class="person-item">Mr. Ramon Ambrosio</li>
+                    <li class="person-item">Mrs. Olivia Mabanag</li>
+                    <li class="person-item">Mrs. Elizabeth Rivo</li>
+                    <li class="person-item">Ms. Bernadette Acab</li>
+                    <li class="person-item">Mrs. Ma. Jessamine Villafuerte</li>
+                    <li class="person-item">Mrs. Jolly Salamante</li>
+                    <li class="person-item">Ms. Mary Grace Vicente</li>
+                </ul>
+            </article>
+
+            <article class="nuptials-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-medal"></i></div>
+                    <h2 class="card-title">Best Man</h2>
+                </div>
+                <ul class="people-list">
+                    <li class="person-item">Mr. Enos Rigor Tan</li>
+                </ul>
+            </article>
+
+            <article class="nuptials-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-crown"></i></div>
+                    <h2 class="card-title">Maids of Honor</h2>
+                </div>
+                <ul class="people-list">
+                    <li class="person-item">Ms. Aira Vie De Jesus</li>
+                    <li class="person-item">Ms. Sherrie Gil De Jesus</li>
+                </ul>
+            </article>
+
+            <article class="nuptials-card wide">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-ring"></i></div>
+                    <h2 class="card-title">Secondary Sponsors</h2>
+                </div>
+                <div class="sponsor-groups">
+                    <section class="sponsor-group">
+                        <h3>Candle</h3>
+                        <ul class="mini-list">
+                            <li>Mr. Christian Gonzales</li>
+                            <li>Mrs. Kimberly Gonzales</li>
+                        </ul>
+                    </section>
+
+                    <section class="sponsor-group">
+                        <h3>Veil</h3>
+                        <ul class="mini-list">
+                            <li>Mr. Emmanuel Parco</li>
+                            <li>Mrs. Abigail Parco</li>
+                        </ul>
+                    </section>
+
+                    <section class="sponsor-group">
+                        <h3>Cord</h3>
+                        <ul class="mini-list">
+                            <li>Mr. Mark Gil De Jesus</li>
+                            <li>Ms. Roxanne Hernandez</li>
+                        </ul>
+                    </section>
+                </div>
+            </article>
+
+            <article class="nuptials-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                    <h2 class="card-title">Bearers</h2>
+                </div>
+                <ul class="people-list">
+                    <li class="person-item"><strong>Ring Bearer</strong><br>Mr. Miguel De Jesus</li>
+                    <li class="person-item"><strong>Bible Bearer</strong><br>Ms. Gabriella Parco</li>
+                    <li class="person-item"><strong>Coin Bearer</strong><br>Mr. Nickolai Hernandez</li>
+                </ul>
+            </article>
+
+            <article class="nuptials-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-seedling"></i></div>
+                    <h2 class="card-title">Flower Girls</h2>
+                </div>
+                <ul class="people-list">
+                    <li class="person-item">Ms. Zhi Han Tan</li>
+                    <li class="person-item">Ms. Isabella Parco</li>
+                    <li class="person-item">Ms. Akinna Pingol</li>
+                    <li class="person-item">Ms. Leslie Bernardino</li>
+                </ul>
+            </article>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

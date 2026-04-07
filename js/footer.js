@@ -23,6 +23,7 @@ const footerTemplate = `
                     <a href="index.html">Home</a>
                     <a href="story.html">Our Story</a>
                     <a href="party.html">Wedding Details</a>
+                    <a href="nuptials.html">Entourage</a>
                     <a href="wishes.html">Wishes</a>
                     <a href="registry.html">Registry</a>
                     <a href="rsvp.html">RSVP</a>
@@ -272,9 +273,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.matchMedia('(display-mode: standalone)').matches || 
             window.navigator.standalone === true ||
             !('serviceWorker' in navigator)) {
-            const installBtn = document.querySelector('.install-link');
-            if (installBtn) {
-                installBtn.style.display = 'none';
+            const installSection = document.querySelector('.footer-install');
+            if (installSection) {
+                installSection.style.display = 'none';
             }
         }
     }
