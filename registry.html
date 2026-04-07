@@ -251,6 +251,24 @@
             transition: background 0.3s;
         }
 
+        .bank-field-joint {
+            display: grid;
+            grid-template-columns: 150px minmax(0, 1fr) auto;
+            column-gap: 0;
+            row-gap: 0.75rem;
+            align-items: center;
+        }
+
+        .bank-field-joint .field-label {
+            grid-row: 1 / span 2;
+            align-self: start;
+            padding-top: 0.5rem;
+        }
+
+        .bank-field-joint .copy-btn {
+            /* margin-left: 1rem; */
+        }
+
         .copy-btn:hover {
             background: #D2B48C;
         }
@@ -314,6 +332,12 @@
                 align-items: flex-start;
             }
 
+            .bank-field-joint {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             .field-label {
                 flex: none;
                 margin-bottom: 0.5rem;
@@ -327,6 +351,11 @@
                 margin-left: 0;
                 margin-top: 0.5rem;
                 width: 100%;
+            }
+
+            .bank-field-joint .field-label {
+                grid-row: auto;
+                padding-top: 0;
             }
         }
     </style>
@@ -608,15 +637,17 @@
                         <button class="copy-btn" data-target="bankName">Copy</button>
                     </div>
                     
-                    <div class="bank-field">
-                        <span class="field-label">Account Name:</span>
+                    <div class="bank-field bank-field-joint">
+                        <span class="field-label">Joint Account:</span>
                         <span class="field-value" id="accountName">Aira Via Gil De Jesus</span>
                         <button class="copy-btn" data-target="accountName">Copy</button>
+                        <span class="field-value" id="accountName1">David Roy Tan</span>
+                        <button class="copy-btn" data-target="accountName1">Copy</button>
                     </div>
                     
                     <div class="bank-field">
                         <span class="field-label">Account Number:</span>
-                        <span class="field-value" id="accountNumber">1234-5678-9012-3456</span>
+                        <span class="field-value" id="accountNumber">3273327933397</span>
                         <button class="copy-btn" data-target="accountNumber">Copy</button>
                     </div>
                     

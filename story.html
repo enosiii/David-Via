@@ -38,6 +38,48 @@
             margin: 0 auto;
         }
 
+        .story-video-section {
+            max-width: 980px;
+            margin: 4rem auto 0;
+            padding: 0 2rem;
+        }
+
+        .story-video-card {
+            background: linear-gradient(135deg, rgba(210, 180, 140, 0.12), rgba(255, 255, 255, 0.98));
+            border: 1px solid rgba(207, 176, 149, 0.5);
+            border-radius: 18px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(73, 40, 40, 0.08);
+        }
+
+        .story-video-intro {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+            color: #666;
+        }
+
+        .story-video-frame {
+            overflow: hidden;
+            border-radius: 14px;
+            border: 2px solid rgba(207, 176, 149, 0.65);
+            background: #492828;
+            box-shadow: 0 8px 24px rgba(73, 40, 40, 0.18);
+        }
+
+        .story-video-player {
+            width: 100%;
+            display: block;
+            background: #000;
+        }
+
+        .story-video-note {
+            margin: 1rem 0 0;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #492828;
+        }
+
         .story-timeline {
             position: relative;
             max-width: 1000px;
@@ -370,6 +412,16 @@
                 font-size: 2.5rem;
             }
 
+            .story-video-section {
+                padding: 0 1rem;
+                margin-top: 3rem;
+            }
+
+            .story-video-card {
+                padding: 1rem;
+                border-radius: 14px;
+            }
+
             .carousel-slide {
                 height: 300px;
             }
@@ -433,6 +485,34 @@
 </div>
 
 <main class="container">
+    <section class="story-video-section">
+        <div class="section-header">
+            <h2>Our Story in Motion</h2>
+            <div class="heart-divider">
+                <i class="fas fa-heart"></i>
+            </div>
+        </div>
+
+        <div class="story-video-card">
+            <p class="story-video-intro">
+                A quiet little glimpse of the journey that brought us here.
+            </p>
+            <div class="story-video-frame">
+                <video
+                    class="story-video-player"
+                    controls
+                    preload="metadata"
+                    playsinline
+                    poster="assets/coverv.jpg"
+                >
+                    <source src="https://luraptyfveifzcvdvtuu.supabase.co/storage/v1/object/public/videos/couple-story.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p class="story-video-note">Best viewed with sound on.</p>
+        </div>
+    </section>
+
     <!-- Timeline Section -->
     <section class="story-timeline">
         <div class="timeline-item">
@@ -517,6 +597,46 @@
                     <button class="carousel-dot active" data-slide="0"></button>
                     <button class="carousel-dot" data-slide="1"></button>
                     <button class="carousel-dot" data-slide="2"></button>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- Film Strip Gallery -->
+        <section class="gallery-section">
+            <div class="section-header">
+                <h2>Pre Nuptial Moments</h2>
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <div class="filmstrip-container">
+                <div class="filmstrip">
+                    <div class="filmstrip-item">
+                        <img src="images/PN1.jpg" alt="Intimacy">
+                        <div class="filmstrip-label">Intimacy</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="images/PN2.jpg" alt="Passionate">
+                        <div class="filmstrip-label">Passionate</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="images/PN3.jpg" alt="Celebration">
+                        <div class="filmstrip-label">Celebration</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="images/PN6.jpg" alt="Celebration">
+                        <div class="filmstrip-label">Journey</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="images/PN4.jpg" alt="Adoration">
+                        <div class="filmstrip-label">Adoration</div>
+                    </div>
+                    <div class="filmstrip-item">
+                        <img src="images/PN5.jpg" alt="Elegance">
+                        <div class="filmstrip-label">Elegance</div>
+                    </div>
                 </div>
             </div>
         </section>
