@@ -209,8 +209,12 @@
             
             <div class="cta-buttons">
                 <a href="rsvp.html" class="btn-primary">RSVP Now</a>
+                <button type="button" class="btn-secondary" data-enable-notifications>Enable Wedding Reminders</button>
                 <!-- <a href="party.html" class="btn-secondary"><i class="fas fa-glass-cheers"></i> View Wedding Details</a> -->
             </div>
+            <p class="text-center" data-notification-status style="margin-top: 1rem; color: #666;">
+                Turn on reminders for wedding countdown notifications.
+            </p>
         </section>
 
         <!-- Photo Preview -->
@@ -244,20 +248,5 @@
     <script src="js/main.js"></script>
     <script src="js/countdown.js"></script>
     <script src="js/footer.js"></script>
-    
-    <!-- Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registered:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Service Worker registration failed:', error);
-                    });
-            });
-        }
-    </script>
 </body>
 </html>

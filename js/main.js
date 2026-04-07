@@ -149,6 +149,140 @@ END:VCALENDAR`;
 let deferredPrompt;
 const pwaPrompt = document.getElementById('pwa-prompt');
 const installButton = document.getElementById('install-pwa');
+const notificationButtons = Array.from(document.querySelectorAll('[data-enable-notifications]'));
+const notificationStatusEls = Array.from(document.querySelectorAll('[data-notification-status]'));
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registered:', registration);
+            })
+            .catch(error => {
+                console.log('Service Worker registration failed:', error);
+            });
+    });
+}
+
+function updateNotificationUI(status, message) {
+    notificationButtons.forEach(button => {
+        if (status === 'enabled') {
+            button.textContent = 'Reminders Enabled';
+            button.disabled = true;
+        } else if (status === 'loading') {
+            button.textContent = 'Enabling...';
+            button.disabled = true;
+        } else {
+            button.textContent = 'Enable Wedding Reminders';
+            button.disabled = false;
+        }
+    });
+
+    notificationStatusEls.forEach(el => {
+        el.textContent = message;
+    });
+}
+
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+
+    return outputArray;
+}
+
+async function subscribeToWeddingNotifications() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
+        updateNotificationUI('idle', 'Push notifications are not supported on this device.');
+        return;
+    }
+
+    updateNotificationUI('loading', 'Requesting notification access...');
+
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+        const message = permission === 'denied'
+            ? 'Notifications are blocked in your browser settings.'
+            : 'Notification permission was not granted.';
+        updateNotificationUI('idle', message);
+        return;
+    }
+
+    try {
+        const registration = await navigator.serviceWorker.ready;
+        const existingSubscription = await registration.pushManager.getSubscription();
+
+        let subscription = existingSubscription;
+        if (!subscription) {
+            const keyResponse = await fetch('/api/push/public-key');
+            if (!keyResponse.ok) {
+                throw new Error('Unable to load the notification public key.');
+            }
+
+            const { publicKey } = await keyResponse.json();
+            subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(publicKey),
+            });
+        }
+
+        const saveResponse = await fetch('/api/push/subscribe', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                subscription,
+                userAgent: navigator.userAgent,
+            }),
+        });
+
+        if (!saveResponse.ok) {
+            throw new Error('Failed to save your notification subscription.');
+        }
+
+        updateNotificationUI('enabled', 'Wedding reminders are enabled on this device.');
+    } catch (error) {
+        console.error('Notification setup failed:', error);
+        updateNotificationUI('idle', 'Unable to enable wedding reminders right now.');
+    }
+}
+
+async function initializeNotificationUI() {
+    if (notificationButtons.length === 0 && notificationStatusEls.length === 0) {
+        return;
+    }
+
+    if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
+        updateNotificationUI('idle', 'Push notifications are not supported on this device.');
+        return;
+    }
+
+    try {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.getSubscription();
+
+        if (subscription) {
+            updateNotificationUI('enabled', 'Wedding reminders are enabled on this device.');
+            return;
+        }
+
+        if (Notification.permission === 'denied') {
+            updateNotificationUI('idle', 'Notifications are blocked in your browser settings.');
+            return;
+        }
+
+        updateNotificationUI('idle', 'Turn on reminders for wedding countdown notifications.');
+    } catch (error) {
+        console.error('Notification status check failed:', error);
+        updateNotificationUI('idle', 'Turn on reminders for wedding countdown notifications.');
+    }
+}
 
 // Only show PWA prompt if not already installed
 if (window.matchMedia('(display-mode: standalone)').matches || 
@@ -161,7 +295,7 @@ if (window.matchMedia('(display-mode: standalone)').matches ||
         
         // Show the PWA prompt after 3 seconds
         setTimeout(() => {
-            if (deferredPrompt && !localStorage.getItem('pwaDismissed')) {
+            if (deferredPrompt && pwaPrompt && !localStorage.getItem('pwaDismissed')) {
                 pwaPrompt.style.display = 'block';
             }
         }, 3000);
@@ -176,25 +310,41 @@ if (installButton) {
             const { outcome } = await deferredPrompt.userChoice;
             console.log(`User response to install prompt: ${outcome}`);
             deferredPrompt = null;
-            pwaPrompt.style.display = 'none';
+            if (pwaPrompt) {
+                pwaPrompt.style.display = 'none';
+            }
         }
     });
 }
 
 // Close PWA prompt
 document.querySelector('.close-pwa')?.addEventListener('click', () => {
-    pwaPrompt.style.display = 'none';
+    if (pwaPrompt) {
+        pwaPrompt.style.display = 'none';
+    }
     localStorage.setItem('pwaDismissed', 'true');
 });
 
 document.querySelector('.btn-later')?.addEventListener('click', () => {
-    pwaPrompt.style.display = 'none';
+    if (pwaPrompt) {
+        pwaPrompt.style.display = 'none';
+    }
     localStorage.setItem('pwaDismissed', 'true');
 });
 
 // Check if PWA is already installed
 window.addEventListener('appinstalled', () => {
     console.log('PWA installed successfully');
-    pwaPrompt.style.display = 'none';
+    if (pwaPrompt) {
+        pwaPrompt.style.display = 'none';
+    }
     deferredPrompt = null;
+});
+
+notificationButtons.forEach(button => {
+    button.addEventListener('click', subscribeToWeddingNotifications);
+});
+
+window.addEventListener('load', () => {
+    initializeNotificationUI();
 });

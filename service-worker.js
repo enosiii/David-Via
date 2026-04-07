@@ -1,10 +1,11 @@
-const CACHE_NAME = 'david-via-wedding-v5'; // ← bump this on every deploy
+const CACHE_NAME = 'david-via-wedding-v6'; // bump this on every deploy
 
 const urlsToCache = [
   '/',
   '/index.html',
   '/story.html',
   '/party.html',
+  '/nuptials.html',
   '/wishes.html',
   '/registry.html',
   '/rsvp.html',
@@ -104,6 +105,47 @@ self.addEventListener('sync', event => {
   if (event.tag === 'sync-rsvp') {
     event.waitUntil(syncRSVPData());
   }
+});
+
+self.addEventListener('push', event => {
+  if (!event.data) return;
+
+  const payload = event.data.json();
+  const title = payload.title || 'David & Via Wedding';
+
+  event.waitUntil(
+    self.registration.showNotification(title, {
+      body: payload.body || '',
+      icon: payload.icon || '/assets/icon192.png',
+      badge: payload.badge || '/assets/icon192.png',
+      tag: payload.tag || 'wedding-reminder',
+      data: {
+        url: payload.url || '/',
+      },
+    })
+  );
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+
+  const targetUrl = event.notification.data && event.notification.data.url
+    ? event.notification.data.url
+    : '/';
+
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
+      for (const client of clients) {
+        if (client.url === targetUrl && 'focus' in client) {
+          return client.focus();
+        }
+      }
+
+      if (self.clients.openWindow) {
+        return self.clients.openWindow(targetUrl);
+      }
+    })
+  );
 });
 
 async function syncRSVPData() {

@@ -155,6 +155,32 @@
             font-weight: bold;
         }
 
+        .notification-panel {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border: 1px solid #EEEEEE;
+            text-align: center;
+        }
+
+        .notification-panel h3 {
+            color: #492828;
+            margin-bottom: 0.75rem;
+        }
+
+        .notification-panel p {
+            color: #666;
+            max-width: 560px;
+            margin: 0 auto 1rem;
+        }
+
+        .notification-status {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #492828;
+        }
+
         .cta-install {
             text-align: center;
             margin-top: 2rem;
@@ -300,6 +326,13 @@
                 <li>App-like experience with full-screen mode</li>
                 <li>Easy RSVP submission</li>
             </ul>
+        </div>
+
+        <div class="notification-panel">
+            <h3>Enable Wedding Reminders</h3>
+            <p>Turn on notifications for countdown reminders before July 11, 2026. You can allow this after installing the app or directly from your browser.</p>
+            <button type="button" class="btn-install-large" data-enable-notifications>Enable Wedding Reminders</button>
+            <p class="notification-status" data-notification-status>Turn on reminders for wedding countdown notifications.</p>
         </div>
 
         <div class="cta-install">
