@@ -1,6 +1,6 @@
 const webPush = require('web-push');
 
-const WEDDING_DATE = '2026-07-11';
+const WEDDING_DATE = '2026-04-08'; //2026-07-11
 const MANILA_TIMEZONE = 'Asia/Manila';
 
 const REMINDER_MESSAGES = {
