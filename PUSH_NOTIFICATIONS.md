@@ -79,3 +79,20 @@ once per day. The route checks the wedding date in Asia/Manila and sends reminde
 - 3 days
 - 2 days
 - 1 day
+
+
+Test Notification
+adjust date in api/_lib/push.js
+
+then:
+```bash
+curl -X GET "https://david-via-wedding.vercel.app/api/cron/send-wedding-reminders" \
+  -H "Authorization: Bearer YOUR_CRON_SECRET"
+
+```
+
+b34ebe62b4a895962d703966c585f7a398a694d1b521a3c14ddde95ed844ef9c
+```bash
+curl -X GET "https://david-via-wedding.vercel.app/api/cron/send-wedding-reminders" \
+  -H "Authorization: Bearer b34ebe62b4a895962d703966c585f7a398a694d1b521a3c14ddde95ed844ef9c"
+```

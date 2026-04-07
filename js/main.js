@@ -151,6 +151,13 @@ const pwaPrompt = document.getElementById('pwa-prompt');
 const installButton = document.getElementById('install-pwa');
 const notificationButtons = Array.from(document.querySelectorAll('[data-enable-notifications]'));
 const notificationStatusEls = Array.from(document.querySelectorAll('[data-notification-status]'));
+const NOTIFICATION_REMINDER_DISMISSED_KEY = 'notificationReminderDismissedAt';
+const NOTIFICATION_REMINDER_ENABLED_KEY = 'notificationReminderEnabled';
+const NOTIFICATION_REMINDER_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+
+function isStandaloneMode() {
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -181,6 +188,216 @@ function updateNotificationUI(status, message) {
     notificationStatusEls.forEach(el => {
         el.textContent = message;
     });
+
+    if (status === 'enabled') {
+        localStorage.setItem(NOTIFICATION_REMINDER_ENABLED_KEY, 'true');
+        const reminderCard = document.getElementById('notification-reminder-card');
+        if (reminderCard) {
+            reminderCard.classList.remove('visible');
+        }
+    }
+}
+
+function createNotificationReminderCard() {
+    const existingCard = document.getElementById('notification-reminder-card');
+    if (existingCard) {
+        return existingCard;
+    }
+
+    if (!document.getElementById('notification-reminder-style')) {
+        const style = document.createElement('style');
+        style.id = 'notification-reminder-style';
+        style.textContent = `
+            .notification-reminder-card {
+                position: fixed;
+                right: 20px;
+                bottom: 20px;
+                z-index: 2100;
+                width: min(360px, calc(100vw - 32px));
+                background: rgba(255, 252, 249, 0.98);
+                border: 1px solid rgba(207, 176, 149, 0.65);
+                border-radius: 16px;
+                box-shadow: 0 16px 40px rgba(73, 40, 40, 0.14);
+                padding: 1rem;
+                color: #492828;
+                transform: translateY(16px);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.25s ease, transform 0.25s ease;
+            }
+
+            .notification-reminder-card.visible {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+
+            .notification-reminder-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 0.75rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .notification-reminder-title {
+                font-family: 'Playfair Display', serif;
+                font-size: 1.15rem;
+                margin: 0;
+                color: #492828;
+            }
+
+            .notification-reminder-close {
+                border: none;
+                background: transparent;
+                color: #666;
+                font-size: 1.25rem;
+                line-height: 1;
+                cursor: pointer;
+                padding: 0;
+            }
+
+            .notification-reminder-text {
+                color: #666;
+                font-size: 0.95rem;
+                line-height: 1.55;
+                margin: 0 0 1rem;
+            }
+
+            .notification-reminder-actions {
+                display: flex;
+                gap: 0.75rem;
+            }
+
+            .notification-reminder-secondary,
+            .notification-reminder-primary {
+                flex: 1;
+                border-radius: 999px;
+                padding: 0.75rem 1rem;
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .notification-reminder-secondary {
+                border: 1px solid #d8c3b1;
+                background: transparent;
+                color: #492828;
+            }
+
+            .notification-reminder-secondary:hover {
+                background: rgba(207, 176, 149, 0.12);
+            }
+
+            .notification-reminder-primary {
+                border: none;
+                background: #492828;
+                color: #EEEEEE;
+            }
+
+            .notification-reminder-primary:hover {
+                background: #3a1f1f;
+            }
+
+            @media (max-width: 640px) {
+                .notification-reminder-card {
+                    right: 16px;
+                    left: 16px;
+                    bottom: 16px;
+                    width: auto;
+                }
+
+                .notification-reminder-actions {
+                    flex-direction: column;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    const card = document.createElement('div');
+    card.id = 'notification-reminder-card';
+    card.className = 'notification-reminder-card';
+    card.innerHTML = `
+        <div class="notification-reminder-header">
+            <h3 class="notification-reminder-title">Enable Wedding Reminders</h3>
+            <button type="button" class="notification-reminder-close" aria-label="Close notification reminder">&times;</button>
+        </div>
+        <p class="notification-reminder-text">Turn on simple reminders so you do not miss any important wedding updates.</p>
+        <div class="notification-reminder-actions">
+            <button type="button" class="notification-reminder-secondary">Maybe Later</button>
+            <button type="button" class="notification-reminder-primary">Enable Reminders</button>
+        </div>
+    `;
+
+    const dismissReminderCard = (persistDismissal = true) => {
+        card.classList.remove('visible');
+        if (persistDismissal) {
+            localStorage.setItem(NOTIFICATION_REMINDER_DISMISSED_KEY, String(Date.now()));
+        }
+    };
+
+    card.querySelector('.notification-reminder-close').addEventListener('click', () => dismissReminderCard(true));
+    card.querySelector('.notification-reminder-secondary').addEventListener('click', () => dismissReminderCard(true));
+    card.querySelector('.notification-reminder-primary').addEventListener('click', async () => {
+        dismissReminderCard(false);
+        await subscribeToWeddingNotifications();
+    });
+
+    document.body.appendChild(card);
+    return card;
+}
+
+function canShowNotificationReminderCard() {
+    if (!isStandaloneMode()) {
+        return false;
+    }
+
+    if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
+        return false;
+    }
+
+    if (Notification.permission === 'denied') {
+        return false;
+    }
+
+    if (localStorage.getItem(NOTIFICATION_REMINDER_ENABLED_KEY) === 'true') {
+        return false;
+    }
+
+    const dismissedAt = Number(localStorage.getItem(NOTIFICATION_REMINDER_DISMISSED_KEY) || '0');
+    if (dismissedAt && Date.now() - dismissedAt < NOTIFICATION_REMINDER_COOLDOWN_MS) {
+        return false;
+    }
+
+    return true;
+}
+
+async function maybeShowNotificationReminderCard() {
+    if (!canShowNotificationReminderCard()) {
+        return;
+    }
+
+    try {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.getSubscription();
+        if (subscription) {
+            localStorage.setItem(NOTIFICATION_REMINDER_ENABLED_KEY, 'true');
+            return;
+        }
+    } catch (error) {
+        console.error('Notification reminder readiness check failed:', error);
+        return;
+    }
+
+    if (pwaPrompt && pwaPrompt.style.display === 'block') {
+        window.setTimeout(maybeShowNotificationReminderCard, 12000);
+        return;
+    }
+
+    const card = createNotificationReminderCard();
+    card.classList.add('visible');
 }
 
 function urlBase64ToUint8Array(base64String) {
@@ -339,6 +556,7 @@ window.addEventListener('appinstalled', () => {
         pwaPrompt.style.display = 'none';
     }
     deferredPrompt = null;
+    window.setTimeout(maybeShowNotificationReminderCard, 2000);
 });
 
 notificationButtons.forEach(button => {
@@ -347,4 +565,5 @@ notificationButtons.forEach(button => {
 
 window.addEventListener('load', () => {
     initializeNotificationUI();
+    window.setTimeout(maybeShowNotificationReminderCard, 7000);
 });
