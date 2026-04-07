@@ -1,5 +1,4 @@
 const {
-  getDaysUntilWedding,
   getReminderPayload,
   hasReminderBeenSent,
   sendReminderNotification,
@@ -16,14 +15,13 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const daysUntilWedding = getDaysUntilWedding();
-    const payload = getReminderPayload(daysUntilWedding);
+    const payload = getReminderPayload();
 
     if (!payload) {
       return res.status(200).json({
         success: true,
         skipped: true,
-        reason: `No reminder configured for ${daysUntilWedding} days until wedding`,
+        reason: 'No reminder configured for today',
       });
     }
 
@@ -40,8 +38,8 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
+      reminderType: payload.type,
       stageKey: payload.stageKey,
-      daysUntilWedding,
       sentCount,
     });
   } catch (error) {

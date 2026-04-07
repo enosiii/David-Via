@@ -67,8 +67,9 @@ The cron is configured in `vercel.json` to call:
 
 - `/api/cron/send-wedding-reminders`
 
-once per day. The route checks the wedding date in Asia/Manila and sends reminders for:
+once per day. The route checks the wedding date and RSVP deadline in Asia/Manila and sends reminders for:
 
+Wedding reminders:
 - 30 days
 - 21 days
 - 14 days
@@ -78,6 +79,11 @@ once per day. The route checks the wedding date in Asia/Manila and sends reminde
 - 4 days
 - 3 days
 - 2 days
+- 1 day
+
+RSVP deadline reminders before June 1, 2026:
+- 7 days
+- 3 days
 - 1 day
 
 
