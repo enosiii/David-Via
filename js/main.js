@@ -151,16 +151,23 @@ const pwaPrompt = document.getElementById('pwa-prompt');
 const installButton = document.getElementById('install-pwa');
 const notificationButtons = Array.from(document.querySelectorAll('[data-enable-notifications]'));
 const notificationStatusEls = Array.from(document.querySelectorAll('[data-notification-status]'));
+const PWA_PROMPT_DISMISSED_KEY = 'pwaPromptDismissedAt';
+const PWA_PROMPT_COOLDOWN_MS = 2 * 24 * 60 * 60 * 1000;
 const NOTIFICATION_REMINDER_DISMISSED_KEY = 'notificationReminderDismissedAt';
 const NOTIFICATION_REMINDER_ENABLED_KEY = 'notificationReminderEnabled';
-const NOTIFICATION_REMINDER_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+const NOTIFICATION_REMINDER_COOLDOWN_MS = 2 * 24 * 60 * 60 * 1000;
 
 function isStandaloneMode() {
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 
 function hasInstallPromptBeenDismissed() {
-    return localStorage.getItem('pwaDismissed') === 'true';
+    const dismissedAt = Number(localStorage.getItem(PWA_PROMPT_DISMISSED_KEY) || '0');
+    return Boolean(dismissedAt && Date.now() - dismissedAt < PWA_PROMPT_COOLDOWN_MS);
+}
+
+function dismissInstallPromptForCooldown() {
+    localStorage.setItem(PWA_PROMPT_DISMISSED_KEY, String(Date.now()));
 }
 
 if ('serviceWorker' in navigator) {
@@ -516,7 +523,7 @@ if (window.matchMedia('(display-mode: standalone)').matches ||
         
         // Show the PWA prompt after 3 seconds
         setTimeout(() => {
-            if (deferredPrompt && pwaPrompt && !localStorage.getItem('pwaDismissed')) {
+            if (deferredPrompt && pwaPrompt && !hasInstallPromptBeenDismissed()) {
                 pwaPrompt.style.display = 'block';
             }
         }, 3000);
@@ -543,7 +550,7 @@ document.querySelector('.close-pwa')?.addEventListener('click', () => {
     if (pwaPrompt) {
         pwaPrompt.style.display = 'none';
     }
-    localStorage.setItem('pwaDismissed', 'true');
+    dismissInstallPromptForCooldown();
     window.setTimeout(maybeShowNotificationReminderCard, 5000);
 });
 
@@ -551,7 +558,7 @@ document.querySelector('.btn-later')?.addEventListener('click', () => {
     if (pwaPrompt) {
         pwaPrompt.style.display = 'none';
     }
-    localStorage.setItem('pwaDismissed', 'true');
+    dismissInstallPromptForCooldown();
     window.setTimeout(maybeShowNotificationReminderCard, 5000);
 });
 
