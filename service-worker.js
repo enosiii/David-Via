@@ -1,4 +1,4 @@
-const CACHE_NAME = 'david-via-wedding-v7'; // bump this on every deploy
+const CACHE_NAME = 'david-via-wedding-v8'; // bump this on every deploy
 
 const urlsToCache = [
   '/',
@@ -17,6 +17,12 @@ const urlsToCache = [
   '/js/countdown.js',
   '/js/gallery.js',
   '/manifest.json',
+  '/assets/icon192.png',
+  '/assets/icon512.png',
+  'assets/hero.jpg',
+  'assets/cover1.webp',
+  'assets/cover2.webp',
+  'assets/cover3.webp',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
   'https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap'
 ];
