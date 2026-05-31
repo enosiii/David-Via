@@ -282,6 +282,70 @@
             to { transform: translateX(100%); opacity: 0; }
         }
 
+        /* Success Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: modalFadeIn 0.3s ease;
+        }
+        .modal-overlay.closing {
+            animation: modalFadeOut 0.3s ease;
+        }
+        .modal-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2.5rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: modalScaleIn 0.3s ease;
+        }
+        .modal-box.closing {
+            animation: modalScaleOut 0.3s ease;
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            padding: 4px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .modal-close:hover {
+            color: #333;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes modalFadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes modalScaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes modalScaleOut {
+            from { transform: scale(1); opacity: 1; }
+            to { transform: scale(0.8); opacity: 0; }
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .rsvp-hero h1 {
@@ -367,7 +431,7 @@
     <div class="rsvp-hero">
         <div class="hero-content">
             <h1>RSVP</h1>
-            <p>Please respond by <strong>June 01, 2026</strong></p>
+            <p>Please respond by <strong>June 11, 2026</strong></p>
         </div>
     </div>
 
@@ -524,7 +588,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer" id="faqAnswer1">
-                        <p>Please RSVP by <strong>June 01, 2026</strong>. This gives us enough time to finalize seating arrangements, catering numbers, and other important details.</p>
+                        <p>Please RSVP by <strong>June 11, 2026</strong>. This gives us enough time to finalize seating arrangements, catering numbers, and other important details.</p>
                     </div>
                 </div>
 
@@ -579,7 +643,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer" id="faqAnswer6">
-                        <p>Yes, you can update your RSVP until <strong>June 01, 2026</strong>. Please contact us directly if you need to make changes after submitting. After the deadline, changes may not be possible due to final arrangements.</p>
+                        <p>Yes, you can update your RSVP until <strong>June 11, 2026</strong>. Please contact us directly if you need to make changes after submitting. After the deadline, changes may not be possible due to final arrangements.</p>
                     </div>
                 </div>
 
@@ -778,7 +842,7 @@
                     const result = await response.json();
 
                     if (result.result === 'success') {
-                        showAlert('Thank you for your RSVP! We look forward to celebrating with you.', 'success');
+                        showSuccessModal();
 
                         submitBtn.innerHTML = '<i class="fas fa-check"></i> RSVP Sent';
                         submitBtn.style.background = '#D2B48C';
@@ -811,21 +875,61 @@
         }
         
         // ============================================
-        // ALERT MESSAGE FUNCTION
-        // (unchanged from original)
+        // SUCCESS MODAL FUNCTION
+        // ============================================
+        function showSuccessModal() {
+            const existing = document.querySelector('.modal-overlay');
+            if (existing) existing.remove();
+
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-box';
+            modal.innerHTML = `
+                <button class="modal-close">&times;</button>
+                <div style="font-size: 3rem; margin-bottom: 1rem; color: #D2B48C;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 0.75rem; color: #333;">
+                    RSVP Submitted!
+                </h3>
+                <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.6;">
+                    Your RSVP has been received! Please send a message to David &amp; Via.
+                </p>
+                <a href="wishes.html" class="btn-primary" style="padding: 0.8rem 2rem; font-size: 1rem; text-decoration: none; display: inline-block;">
+                    <i class="fas fa-heart"></i> Send Wishes
+                </a>
+            `;
+
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+
+            function closeModal() {
+                overlay.classList.add('closing');
+                modal.classList.add('closing');
+                setTimeout(() => overlay.remove(), 300);
+            }
+
+            modal.querySelector('.modal-close').addEventListener('click', closeModal);
+            modal.querySelector('a').addEventListener('click', closeModal);
+        }
+        
+        // ============================================
+        // ALERT MESSAGE FUNCTION (for errors only)
         // ============================================
         function showAlert(message, type) {
             const existingAlerts = document.querySelectorAll('.custom-alert');
             existingAlerts.forEach(alert => alert.remove());
-            
+
             const alertEl = document.createElement('div');
             alertEl.className = `custom-alert ${type}`;
-            
+
             const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
             alertEl.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
-            
+
             document.body.appendChild(alertEl);
-            
+
             setTimeout(() => {
                 alertEl.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => {
@@ -835,27 +939,11 @@
                 }, 300);
             }, 5000);
         }
-        
+
         // ============================================
         // INITIALIZE ON PAGE LOAD
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            if (!document.getElementById('alertAnimations')) {
-                const style = document.createElement('style');
-                style.id = 'alertAnimations';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes slideOut {
-                        from { transform: translateX(0); opacity: 1; }
-                        to { transform: translateX(100%); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
             // Auto-select Yes on load
             setTimeout(() => {
                 if (!attendanceYes.classList.contains('selected') && 

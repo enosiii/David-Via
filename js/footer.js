@@ -6,7 +6,7 @@ const footerTemplate = `
             <div class="footer-section">
                 <h3 class="footer-title">David & Via</h3>
                 <p class="footer-subtitle">July 11, 2026</p>
-                <p class="rsvp-reminder">Please RSVP on or before June 01, 2026</p>
+                <p class="rsvp-reminder">Please RSVP on or before June 11, 2026</p>
                 
                 <div class="footer-install">
                     <a href="install.html" class="install-link">

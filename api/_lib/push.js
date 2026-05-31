@@ -1,7 +1,7 @@
 const webPush = require('web-push');
 
 const WEDDING_DATE = '2026-07-11'; //2026-07-11
-const RSVP_DEADLINE = '2026-06-01';
+const RSVP_DEADLINE = '2026-06-11';
 const MANILA_TIMEZONE = 'Asia/Manila';
 const HOME_URL = 'https://david-via-wedding.vercel.app/';
 const STORY_URL = 'https://david-via-wedding.vercel.app/story.html';
