@@ -60,10 +60,11 @@ const footerTemplate = `
         
         <div class="footer-bottom">
             <p class="copyright">© 2026 David Roy S. Tan & Aira Via Gil V. De Jesus - Made with <i class="fa-solid fa-heart"></i></p>
-            <div class="social-links">
-                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <div class="footer-brand">
+                <img class="footer-ez-icon" src="https://zwdprqdlluuucbfoizpq.supabase.co/storage/v1/object/public/ez_invites/ez_icon.webp" alt="EZ Invites">
+                <span>EZ Invites</span>
+                <a class="footer-social" href="https://www.ez-invites.com" target="_blank" rel="noopener" aria-label="EZ Invites Website"><i class="fas fa-link"></i></a>
+                <a class="footer-social" href="https://facebook.com/ezinv" target="_blank" rel="noopener" aria-label="EZ Invites Facebook"><i class="fab fa-facebook"></i></a>
             </div>
         </div>
     </div>
@@ -218,28 +219,50 @@ const footerTemplate = `
         margin-bottom: 1rem;
     }
 
-    .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
+    .footer-divider {
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #CE1126, transparent);
+        margin: 0 auto 15px;
     }
 
-    .social-link {
+    .footer-brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(238, 238, 238, 0.15);
+    }
+
+    .footer-ez-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 4px;
+    }
+
+    .footer-brand span {
+        font-size: .78rem;
+        color: #EEEEEE;
+        font-weight: 500;
+    }
+
+    .footer-social {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
-        background: rgba(238, 238, 238, 0.1);
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
-        color: #EEEEEE;
+        background: rgba(73, 40, 40, .1);
+        color: #492828;
         text-decoration: none;
-        transition: all 0.3s;
+        font-size: .85rem;
+        transition: background .2s;
     }
 
-    .social-link:hover {
-        background: #492828;
-        transform: translateY(-2px);
+    .footer-social:hover {
+        background: rgba(73, 40, 40, .2);
     }
 
     @media (max-width: 768px) {
