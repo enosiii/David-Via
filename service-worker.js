@@ -17,9 +17,10 @@ const urlsToCache = [
   '/js/countdown.js',
   '/js/gallery.js',
   '/manifest.json',
-  '/assets/icon192.png',
-  '/assets/icon512.png',
-  'assets/hero.jpg',
+  '/assets/icon192.webp',
+  'assets/QR_Gcash.webp',
+  'assets/QR_MAYA.webp',
+  'assets/hero.webp',
   'assets/cover1.webp',
   'assets/cover2.webp',
   'assets/cover3.webp',
@@ -122,8 +123,8 @@ self.addEventListener('push', event => {
   event.waitUntil(
     self.registration.showNotification(title, {
       body: payload.body || '',
-      icon: payload.icon || '/assets/icon192.png',
-      badge: payload.badge || '/assets/icon192.png',
+      icon: payload.icon || '/assets/icon192.webp',
+      badge: payload.badge || '/assets/icon192.webp',
       tag: payload.tag || 'wedding-reminder',
       data: {
         url: payload.url || '/',

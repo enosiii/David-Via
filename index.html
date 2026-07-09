@@ -6,8 +6,8 @@
     <meta name="theme-color" content=#CFB095">
     <meta name="description" content="Wedding of David Roy & Aira Via">
     <title>David & Via | July 11, 2026</title>
-    <link rel="icon" type="image/png" href="/assets/icon.png">
-    <link rel="apple-touch-icon" href="/assets/icon.png">
+    <link rel="icon" type="image/png" href="/assets/icon.webp">
+    <link rel="apple-touch-icon" href="/assets/icon.webp">
 
   
     <meta name="description" content="💍 Join us in celebrating the wedding of David & Via on July 11, 2026">
@@ -17,7 +17,7 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="David & Via | July 11, 2026 💍" />
     <meta property="og:description" content="💍 Join us in celebrating the wedding of David & Via on July 11, 2026" />
-    <meta property="og:image" content="https://david-via-wedding.ez-invites.com/assets/share.png" />
+    <meta property="og:image" content="https://david-via-wedding.ez-invites.com/assets/share.webp" />
     <meta property="og:image:type" content="image/jpg" />
     <meta property="og:url" content="https://david-via-wedding.ez-invites.com/" />
     <meta property="og:type" content="website" />
@@ -33,7 +33,7 @@
     <meta property="twitter:url" content="https://david-via-wedding.ez-invites.com/" />
     <meta name="twitter:title" content="Wedding of David & Via 💍" />
     <meta name="twitter:description" content="💍 Join us in celebrating the wedding of David & Via on July 11, 2026" />
-    <meta name="twitter:image" content="https://david-via-wedding.ez-invites.com/assets/share.png" />
+    <meta name="twitter:image" content="https://david-via-wedding.ez-invites.com/assets/share.webp" />
     <meta name="twitter:image:width" content="800" />
     <meta name="twitter:image:height" content="420" />
 
@@ -43,8 +43,106 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Wishes Prompt Modal */
+        .wishes-modal {
+            display: none;
+            position: fixed;
+            z-index: 99999;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .wishes-modal.active {
+            display: flex;
+        }
+
+        .wishes-modal .modal-box {
+            background: white;
+            border-radius: 16px;
+            max-width: 420px;
+            width: 100%;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wishes-modal .modal-box .close-wishes {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+
+        .wishes-modal .modal-box .close-wishes:hover {
+            color: #333;
+        }
+
+        .wishes-modal .modal-box .heart-icon {
+            font-size: 2.5rem;
+            color: #CFB095;
+            margin-bottom: 0.75rem;
+        }
+
+        .wishes-modal .modal-box h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #492828;
+            margin-bottom: 0.75rem;
+        }
+
+        .wishes-modal .modal-box p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .wishes-modal .modal-box .btn-wishes {
+            background: #CFB095;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .wishes-modal .modal-box .btn-wishes:hover {
+            background: #b8957a;
+        }
+    </style>
 </head>
 <body>
+    <!-- Wishes Prompt Modal -->
+    <div id="wishesModal" class="wishes-modal">
+        <div class="modal-box">
+            <button class="close-wishes" onclick="dismissWishesModal()">&times;</button>
+            <div class="heart-icon"><i class="fas fa-heart"></i></div>
+            <h2>Leave a Message</h2>
+            <p>Your warm wishes mean the world to us! Drop a heartfelt message for the couple to cherish forever.</p>
+            <button class="btn-wishes" onclick="goToWishes()">Write a Message</button>
+        </div>
+    </div>
+
     <!-- PWA Install Prompt -->
     <div id="pwa-prompt" class="pwa-prompt">
         <div class="pwa-content">
@@ -248,5 +346,37 @@
     <script src="js/main.js"></script>
     <script src="js/countdown.js"></script>
     <script src="js/footer.js"></script>
+    <script>
+        // Wishes prompt modal
+        (function() {
+            var KEY = 'wishes-modal-dismissed';
+            var ONE_HOUR = 20 * 60 * 1000;
+
+            function shouldShow() {
+                var val = localStorage.getItem(KEY);
+                if (!val) return true;
+                var elapsed = Date.now() - parseInt(val, 10);
+                return elapsed > ONE_HOUR;
+            }
+
+            function showModal() {
+                document.getElementById('wishesModal').classList.add('active');
+            }
+
+            window.dismissWishesModal = function() {
+                localStorage.setItem(KEY, Date.now().toString());
+                document.getElementById('wishesModal').classList.remove('active');
+            };
+
+            window.goToWishes = function() {
+                localStorage.setItem(KEY, Date.now().toString());
+                window.location.href = 'wishes.html';
+            };
+
+            if (shouldShow()) {
+                setTimeout(showModal, 1500);
+            }
+        })();
+    </script>
 </body>
 </html>

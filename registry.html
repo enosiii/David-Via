@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gift Registry | David & VIa</title>
-    <link rel="icon" type="image/png" href="/assets/icon.png">
-    <link rel="apple-touch-icon" href="/assets/icon.png">
+    <link rel="icon" type="image/png" href="/assets/icon.webp">
+    <link rel="apple-touch-icon" href="/assets/icon.webp">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
@@ -210,6 +210,87 @@
             padding: 3rem;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .qr-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            justify-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .qr-grid .qr-item {
+            max-width: 280px;
+            width: 100%;
+        }
+
+        .qr-grid .qr-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: block;
+        }
+
+        /* Modal */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .qr-modal.active {
+            display: flex;
+        }
+
+        .qr-modal .modal-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .qr-modal .modal-content img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .qr-modal .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .qr-modal .btn-download {
+            margin-top: 1rem;
+            background: #CFB095;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .qr-modal .btn-download:hover {
+            background: #b8957a;
         }
 
         .bank-info {
@@ -435,7 +516,7 @@
                 <!-- Item 1 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="assets/kitchen.png" alt="Kitchen Appliances">
+                        <img src="assets/kitchen.webp" alt="Kitchen Appliances">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Kitchen Essentials</h3>
@@ -466,7 +547,7 @@
                 <!-- Item 2 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="assets/livingroom.png" alt="Living Room Set">
+                        <img src="assets/livingroom.webp" alt="Living Room Set">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Living Room Set</h3>
@@ -497,7 +578,7 @@
                 <!-- Item 3 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="assets/bedroom.png" alt="Bedroom Set">
+                        <img src="assets/bedroom.webp" alt="Bedroom Set">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Bedroom Furniture</h3>
@@ -528,7 +609,7 @@
                 <!-- Item 4 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="assets/dining.png" alt="Dining Set">
+                        <img src="assets/dining.webp" alt="Dining Set">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Dining Set</h3>
@@ -559,7 +640,7 @@
                 <!-- Item 5 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="assets/appliance.png" alt="Home Appliances">
+                        <img src="assets/appliance.webp" alt="Home Appliances">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Home Appliances</h3>
@@ -590,7 +671,7 @@
                 <!-- Item 6 -->
                 <div class="registry-card">
                     <div class="registry-image">
-                        <img src="assets/honeymoon.png" alt="Honeymoon Fund">
+                        <img src="assets/honeymoon.webp" alt="Honeymoon Fund">
                     </div>
                     <div class="registry-content">
                         <h3 class="registry-title">Honeymoon Fund</h3>
@@ -629,6 +710,32 @@
                         <i class="fas fa-heart"></i>
                     </div>
                     <p>For direct bank transfers or cash gifts</p>
+                </div>
+
+                <div class="qr-grid">
+                    <div class="qr-item">
+                        <img src="assets/QR_Gcash.webp" alt="GCash QR" onclick="openQrModal('QR_Gcash')">
+                    </div>
+                    <div class="qr-item">
+                        <img src="assets/QR_MAYA.webp" alt="Maya QR" onclick="openQrModal('QR_MAYA')">
+                    </div>
+                </div>
+
+                <!-- QR Modals -->
+                <div id="qrModal_QR_Gcash" class="qr-modal" onclick="closeQrModal(event, 'QR_Gcash')">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <span class="close-btn" onclick="closeQrModal(event, 'QR_Gcash')">&times;</span>
+                        <img src="assets/QR_Gcash.webp" alt="GCash QR">
+                        <button class="btn-download" onclick="downloadQr('QR_Gcash')">Download</button>
+                    </div>
+                </div>
+
+                <div id="qrModal_QR_MAYA" class="qr-modal" onclick="closeQrModal(event, 'QR_MAYA')">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <span class="close-btn" onclick="closeQrModal(event, 'QR_MAYA')">&times;</span>
+                        <img src="assets/QR_MAYA.webp" alt="Maya QR">
+                        <button class="btn-download" onclick="downloadQr('QR_MAYA')">Download</button>
+                    </div>
                 </div>
 
                 <div class="bank-info">
@@ -692,6 +799,26 @@
     <script src="js/main.js"></script>
     <script src="js/footer.js"></script>
     <script>
+        // QR Modal
+        function openQrModal(name) {
+            document.getElementById('qrModal_' + name).classList.add('active');
+        }
+
+        function closeQrModal(e, name) {
+            if (e.target === e.currentTarget || e.target.classList.contains('close-btn')) {
+                document.getElementById('qrModal_' + name).classList.remove('active');
+            }
+        }
+
+        function downloadQr(name) {
+            const a = document.createElement('a');
+            a.href = 'assets/' + name + '.webp';
+            a.download = name + '.webp';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
         // Copy to clipboard functionality
         document.querySelectorAll('.copy-btn').forEach(button => {
             button.addEventListener('click', function() {

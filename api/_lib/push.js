@@ -285,8 +285,8 @@ function getWeddingReminderPayload(daysUntilWedding) {
   return {
     ...selectedReminder,
     sentDate: formatDateInManila(),
-    icon: '/assets/icon192.png',
-    badge: '/assets/icon192.png',
+    icon: '/assets/icon192.webp',
+    badge: '/assets/icon192.webp',
     url: selectedReminder.url || HOME_URL,
   };
 }
@@ -300,8 +300,8 @@ function getRsvpReminderPayload(daysUntilDeadline) {
   return {
     ...reminder,
     sentDate: formatDateInManila(),
-    icon: '/assets/icon192.png',
-    badge: '/assets/icon192.png',
+    icon: '/assets/icon192.webp',
+    badge: '/assets/icon192.webp',
     url: reminder.url || RSVP_URL,
   };
 }
